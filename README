@@ -1,0 +1,6 @@
+Akka Essentials
+
+You will find examples of Akka in Java here talking of one concept along with a problem solved
+
+ClientServerExample : This example demonstrates how the remote actors works in a client / server mode. The client sends the message to the server and server replies back to the client. 
+
