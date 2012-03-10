@@ -28,7 +28,7 @@ public class HelloWorld extends UntypedActor
 	@Override
 	public void onReceive(Object message) throws Exception {
 		
-		//recieve and reply to the message recieved
+		//receive and reply to the message received
 		getContext().tryReply("Hello " + message);
 		
 	}
