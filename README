@@ -1,0 +1,7 @@
+Akka Essentials
+
+You will find examples of Akka in Java here talking of one concept along with a problem solved
+
+ClientServerExample : This example demonstrates how the remote actors works in a client / server mode. The client sends the message to the server and server replies back to the client. 
+
+LoadGeneratorExample : This example generates 10 million messages and calculates the time it takes to process them. The program demonstrated the Routing concept where a roundrobinrouter is used to distribute the load on to a set of workers.
