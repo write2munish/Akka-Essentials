@@ -5,3 +5,5 @@ You will find examples of Akka in Java here talking of one concept along with a 
 ClientServerExample : This example demonstrates how the remote actors works in a client / server mode. The client sends the message to the server and server replies back to the client. 
 
 LoadGeneratorExample : This example generates 10 million messages and calculates the time it takes to process them. The program demonstrated the Routing concept where a roundrobinrouter is used to distribute the load on to a set of workers.
+
+WordCountMapReduce : This examples implements the Word Count Map Reduce model. The client system reads a text file and sends each line of text as a message to the Server. The server reads the line, maps the words, reduces the words and finally does an inmemory aggregation of the result. The example also implemented a prioritymailbox, which is used to segregate the message requests between the mapreduce requests and getting the list of results from the aggregate actor.
