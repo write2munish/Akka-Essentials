@@ -4,7 +4,7 @@ You will find examples of Akka in Java here talking of one concept along with a 
 
 tutorial-first-akka : This example has 2 demonstrations. First file HelloWorld.java introduces the simple concept of actor and how to send your first message. The second set HelloWorldClient and HelloWorldServer introduces the Remote Actor concept with the similar hello world message
 
-ClientServerExample : This example demonstrates how the remote actors works in a client / server mode. The client sends the message to the server and server replies back to the client
+ClientServerExample : This example demonstrates how the remote actors works in a client / server mode. The client sends the message to the server and server replies back to the client. The example also demonstrates various methods of creating remote actor references on the client side.
 
 LoadGeneratorExample : This example generates 10 million messages and calculates the time it takes to process them. The program demonstrated the Routing concept where a roundrobinrouter is used to distribute the load on to a set of workers
 
