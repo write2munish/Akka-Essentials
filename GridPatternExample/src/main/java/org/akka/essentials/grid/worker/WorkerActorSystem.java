@@ -1,5 +1,7 @@
 package org.akka.essentials.grid.worker;
 
+import org.akka.essentials.grid.StartWorker;
+
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
 import akka.actor.Address;
@@ -20,11 +22,11 @@ public class WorkerActorSystem implements Bootable {
 		// get the reference to the remote server actor
 		registerRemoteWorkerActor = system
 				.actorFor("akka://WorkServerSys@127.0.0.1:2552/user/RegisterRemoteWorkerActor");
-
+		
 		// create the worker address message
 		Address myAddr = new Address("akka", "WorkerSys", "127.0.0.1", port);
 		// send a message to server to register this worker instance
-		registerRemoteWorkerActor.tell(myAddr);
+		registerRemoteWorkerActor.tell(new StartWorker(myAddr.toString()));
 	}
 
 	public static void main(String[] args) {

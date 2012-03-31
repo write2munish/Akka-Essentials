@@ -12,6 +12,7 @@ import akka.dispatch.UnboundedPriorityMailbox;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
 import akka.kernel.Bootable;
+import akka.remote.RemoteLifeCycleEvent;
 
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
@@ -24,6 +25,7 @@ public class WorkServerActorSystem implements Bootable {
 	private ActorRef jobControllerActor;
 	@SuppressWarnings("unused")
 	private ActorRef registerRemoteWorkerActor;
+	private ActorRef remoteActorListener;
 
 	/*
 	 * default constructor
@@ -48,6 +50,14 @@ public class WorkServerActorSystem implements Bootable {
 						return new JobControllerActor(workSchedulerActor);
 					}
 				}), "JobControllerActor");
+		
+		remoteActorListener = system.actorOf(new Props(
+				new UntypedActorFactory() {
+					public UntypedActor create() {
+						return new RemoteClientEventListener(jobControllerActor);
+					}
+				}), "RemoteClientEventListener");
+
 
 		// actor that registers and unregisters the workers
 		registerRemoteWorkerActor = system.actorOf(new Props(
@@ -58,6 +68,9 @@ public class WorkServerActorSystem implements Bootable {
 				}), "RegisterRemoteWorkerActor");
 
 		workSchedulerActor.tell("Start Sending Work", jobControllerActor);
+
+		system.eventStream().subscribe(remoteActorListener,
+				RemoteLifeCycleEvent.class);
 
 	}
 
@@ -96,7 +109,8 @@ public class WorkServerActorSystem implements Bootable {
 				@Override
 				public int gen(Object message) {
 					if (message instanceof Address)
-						return 0; // Worker Registration messages should be treated
+						return 0; // Worker Registration messages should be
+									// treated
 									// with highest priority
 					else if (message.equals(Actors.poisonPill()))
 						return 3; // PoisonPill when no other left
