@@ -1,7 +1,7 @@
 Akka Essentials
 (refer http://akkaessentials.in/ for more details)
 
-You will find examples of Akka in Java here talking of one concept along with a problem solved
+You will find examples of Akka in Java & Scala, talking of one concept along with a problem solved
 
 tutorial-first-akka : This example has 2 demonstrations. First file HelloWorld.java introduces the simple concept of actor and how to send your first message. The second set HelloWorldClient and HelloWorldServer introduces the Remote Actor concept with the similar hello world message
 
