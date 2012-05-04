@@ -1,0 +1,44 @@
+package org.akka.essentials.zeromq.example4;
+
+import akka.actor.ActorRef;
+import akka.actor.UntypedActor;
+import akka.event.Logging;
+import akka.event.LoggingAdapter;
+import akka.util.Duration;
+import akka.zeromq.Bind;
+import akka.zeromq.Frame;
+import akka.zeromq.Listener;
+import akka.zeromq.SocketOption;
+import akka.zeromq.ZMQMessage;
+import akka.zeromq.ZeroMQExtension;
+
+public class PushActor extends UntypedActor {
+	public static final Object TICK = "TICK";
+	int count = 0;
+	ActorRef pushSocket = ZeroMQExtension.get(getContext().system())
+			.newPushSocket(
+					new SocketOption[] { new Bind("tcp://127.0.0.1:1237"),
+							new Listener(getSelf()) });
+	LoggingAdapter log = Logging.getLogger(getContext().system(), this);
+
+	@Override
+	public void preStart() {
+
+		getContext()
+				.system()
+				.scheduler()
+				.schedule(Duration.parse("1 second"),
+						Duration.parse("10 second"), getSelf(), TICK);
+	}
+
+	@Override
+	public void onReceive(Object message) throws Exception {
+		if (message.equals(TICK)) {
+
+			count++;
+			pushSocket.tell(new ZMQMessage(new Frame("Hi there (" + count
+					+ ")")));
+		}
+
+	}
+}
