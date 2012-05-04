@@ -14,9 +14,10 @@ class SupervisorActor extends Actor with ActorLogging {
   import org.akka.essentials.supervisor.example3._
 
   var childActor = context.actorOf(Props[WorkerActor], name = "workerActor")
+  val monitor = context.system.actorOf(Props[MonitorActor], name = "monitor")
 
   override def preStart() {
-    MyActorSystem.monitor ! new RegisterWorker(childActor, self)
+    monitor ! new RegisterWorker(childActor, self)
   }
 
   override val supervisorStrategy = OneForOneStrategy(maxNrOfRetries = 10, withinTimeRange = 10 seconds) {

@@ -23,13 +23,11 @@ object MyActorSystem extends App {
 
   val supervisor = system.actorOf(Props[SupervisorActor], name = "supervisor")
 
-  val monitor = system.actorOf(Props[MonitorActor], name = "monitor")
-
   var mesg: Int = 8;
   supervisor ! mesg
 
   supervisor ! "Do Something"
-  
+
   Thread.sleep(4000)
 
   supervisor ! mesg

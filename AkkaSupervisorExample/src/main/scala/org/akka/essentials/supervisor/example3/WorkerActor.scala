@@ -15,14 +15,10 @@ class WorkerActor extends Actor with ActorLogging {
   }
   def receive: Receive = {
     case value: Int =>
-      log.info("Received message " + value);
-      if (value <= 0)
-        throw new ArithmeticException("Number equal or less than zero");
-      else
         state = value;
     case result: Result =>
       sender ! state
     case _ =>
-      throw new IllegalArgumentException("Wrong Arguement");
+      context.stop(self)
   }
 }
