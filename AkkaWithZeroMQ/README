@@ -9,3 +9,4 @@ Example 3 - covers the Request - Reply connection usage
 Example 4 - covers the Pull Push connection usage
 
 
+All the examples assume that zeromq library has been complied and available in the class path.
