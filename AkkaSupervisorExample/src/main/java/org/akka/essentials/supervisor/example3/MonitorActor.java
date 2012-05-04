@@ -34,5 +34,4 @@ public class MonitorActor extends UntypedActor {
 			unhandled(message);
 		}
 	}
-
 }

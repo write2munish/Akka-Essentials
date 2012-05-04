@@ -23,9 +23,6 @@ public class MyActorSystem implements Bootable {
 		final ActorRef supervisor = system.actorOf(new Props(
 				SupervisorActor.class), "supervisor");
 
-		this.monitor = system.actorOf(new Props(MonitorActor.class),
-				"monitorActor");
-
 		supervisor.tell(Integer.valueOf(10));
 		supervisor.tell("10");
 

@@ -18,7 +18,7 @@ import akka.util.Duration;
 
 public class SupervisorActor extends UntypedActor {
 
-	private ActorRef childActor;
+	public ActorRef childActor;
 
 	public SupervisorActor() {
 		childActor = getContext().actorOf(new Props(WorkerActor.class),

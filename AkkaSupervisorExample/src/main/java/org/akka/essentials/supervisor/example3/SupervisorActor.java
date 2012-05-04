@@ -17,12 +17,16 @@ import akka.util.Duration;
 
 public class SupervisorActor extends UntypedActor {
 	private LoggingAdapter log = Logging.getLogger(getContext().system(), this);
-	private ActorRef workerActor = getContext().actorOf(
+	public ActorRef workerActor = getContext().actorOf(
 			new Props(WorkerActor.class), "workerActor");
+
+	ActorRef monitor = getContext().system().actorOf(
+			new Props(MonitorActor.class), "monitorActor");
 
 	@Override
 	public void preStart() {
-		MyActorSystem.monitor.tell(new RegisterWorker(workerActor, self()));
+		//MyActorSystem.monitor.tell(new RegisterWorker(workerActor, self()));
+		monitor.tell(new RegisterWorker(workerActor, self()));
 	}
 
 	private static SupervisorStrategy strategy = new OneForOneStrategy(10,
@@ -54,5 +58,9 @@ public class SupervisorActor extends UntypedActor {
 					"workerActor");
 		} else
 			workerActor.tell(o);
+	}
+
+	public ActorRef getWorker(){
+		return workerActor;
 	}
 }

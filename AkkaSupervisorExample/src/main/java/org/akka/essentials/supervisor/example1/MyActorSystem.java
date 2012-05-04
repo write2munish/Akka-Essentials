@@ -27,8 +27,7 @@ public class MyActorSystem implements Bootable {
 
 		Integer originalValue = Integer.valueOf(0);
 
-		ActorRef supervisor = system.actorOf(new Props(SupervisorActor.class),
-				"supervisor");
+		ActorRef supervisor = system.actorOf(new Props(SupervisorActor.class), "supervisor");
 
 		log.info("Sending value 8, no exceptions should be thrown! ");
 		supervisor.tell(Integer.valueOf(8));

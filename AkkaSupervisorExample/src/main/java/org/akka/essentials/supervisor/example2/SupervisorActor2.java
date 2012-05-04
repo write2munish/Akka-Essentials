@@ -18,9 +18,9 @@ import akka.util.Duration;
 
 public class SupervisorActor2 extends UntypedActor {
 
-	private ActorRef workerActor1;
+	public ActorRef workerActor1;
 	@SuppressWarnings("unused")
-	private ActorRef workerActor2;
+	public ActorRef workerActor2;
 
 	public SupervisorActor2() {
 		workerActor1 = getContext().actorOf(new Props(WorkerActor1.class),

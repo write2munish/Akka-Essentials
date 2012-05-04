@@ -19,8 +19,10 @@ public class WorkerActor extends UntypedActor {
 			Integer value = (Integer) o;
 			state = value;
 			log.info("Received a message " + value);
+		} else if (o instanceof Result) {
+			getSender().tell(state);
 		} else {
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("Wrong Arguement");
 		}
 	}
 
