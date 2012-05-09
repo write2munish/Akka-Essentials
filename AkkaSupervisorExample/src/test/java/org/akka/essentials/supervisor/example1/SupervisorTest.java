@@ -1,4 +1,4 @@
-package org.akka.essentials.supervisor.example1.test;
+package org.akka.essentials.supervisor.example1;
 
 import java.util.concurrent.TimeUnit;
 
@@ -39,8 +39,11 @@ public class SupervisorTest extends TestKit {
 
 	@Test
 	public void resumeTest() throws Exception {
+		TestActorRef<SupervisorActor> supervisor = TestActorRef.apply(new Props(
+				SupervisorActor.class), _system);
+		
 		supervisor.tell(Integer.valueOf(-8));
-
+		
 		Integer result = (Integer) Await.result(
 				Patterns.ask(supervisor, new Result(), 5000),
 				Duration.create(5000, TimeUnit.MILLISECONDS));

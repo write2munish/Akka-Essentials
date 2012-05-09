@@ -1,4 +1,4 @@
-package org.akka.essentials.supervisor.example3.test;
+package org.akka.essentials.supervisor.example3;
 
 import java.util.concurrent.TimeUnit;
 
@@ -34,6 +34,7 @@ public class SupervisorTest extends TestKit {
 		supervisor.tell("10");
 		probe.expectMsg(new Terminated(workerActor));
 
+		Thread.sleep(3000);
 		// the actor should get restarted
 		// lets send a new value and retrieve the same
 		supervisor.tell(Integer.valueOf(10));
