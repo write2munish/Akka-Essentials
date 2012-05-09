@@ -1,4 +1,4 @@
-package org.akka.essentials.unittest.example;
+package org.akka.essentials.unittest.actors;
 
 import static akka.pattern.Patterns.ask;
 import junit.framework.Assert;

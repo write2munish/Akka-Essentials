@@ -1,4 +1,4 @@
-package org.akka.essentials.unittest.example;
+package org.akka.essentials.unittest.actors;
 
 import static akka.pattern.Patterns.ask;
 
@@ -34,14 +34,14 @@ import akka.util.Duration;
 
 import com.typesafe.config.ConfigFactory;
 
-public class UnitTestExample extends TestKit {
+public class ExampleUnitTest extends TestKit {
 
 	static ActorSystem _system = ActorSystem.create("TestSys", ConfigFactory
 			.load().getConfig("TestSys"));
 
 	LoggingAdapter log = Logging.getLogger(_system, this);
 
-	public UnitTestExample() {
+	public ExampleUnitTest() {
 		super(_system);
 	}
 
