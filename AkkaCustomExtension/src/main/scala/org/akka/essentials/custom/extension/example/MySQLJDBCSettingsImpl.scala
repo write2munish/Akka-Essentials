@@ -1,4 +1,4 @@
-package org.akka.essentials.custom.extension.example.scala
+package org.akka.essentials.custom.extension.example
 import akka.actor.Extension
 import com.typesafe.config.Config
 
