@@ -3,6 +3,7 @@ package org.akka.essentials.zeromq.example2;
 import java.util.Random;
 
 import akka.actor.ActorRef;
+import akka.actor.Cancellable;
 import akka.actor.UntypedActor;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
@@ -19,6 +20,9 @@ public class RouterActor extends UntypedActor {
 	public static final Object TICK = "TICK";
 
 	Random random = new Random(3);
+	int count = 0;
+	Cancellable cancellable;
+
 	ActorRef routerSocket = ZeroMQExtension.get(getContext().system())
 			.newRouterSocket(
 					new SocketOption[] { new Listener(getSelf()),
@@ -28,7 +32,7 @@ public class RouterActor extends UntypedActor {
 
 	@Override
 	public void preStart() {
-		getContext()
+		cancellable = getContext()
 				.system()
 				.scheduler()
 				.schedule(Duration.parse("1 second"),
@@ -47,11 +51,15 @@ public class RouterActor extends UntypedActor {
 						"This is the workload for B")));
 
 			}
+			count++;
+			if (count == 10)
+				cancellable.cancel();
+			
 		} else if (message instanceof ZMQMessage) {
 			ZMQMessage m = (ZMQMessage) message;
 			String replier = new String(m.payload(0));
 			String msg = new String(m.payload(1));
-			log.info("recived message from " + replier + " with mesg ->" + msg);
+			log.info("Received message from " + replier + " with mesg ->" + msg);
 		}
 
 	}

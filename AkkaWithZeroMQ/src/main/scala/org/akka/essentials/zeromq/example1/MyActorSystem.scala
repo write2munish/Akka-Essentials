@@ -11,4 +11,6 @@ object MyActorSystem {
   system.actorOf(Props[PublisherActor], name = "publisher")
   system.actorOf(Props[WorkerTaskA], name = "workerA")
   system.actorOf(Props[WorkerTaskB], name = "workerB")
+  
+  
 }

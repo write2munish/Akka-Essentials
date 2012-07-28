@@ -1,6 +1,7 @@
 package org.akka.essentials.zeromq.example3.client;
 
 import akka.actor.ActorRef;
+import akka.actor.Cancellable;
 import akka.actor.UntypedActor;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
@@ -14,6 +15,8 @@ import akka.zeromq.ZeroMQExtension;
 
 public class ClientActor extends UntypedActor {
 	public static final Object TICK = "TICK";
+	int count = 0;
+	Cancellable cancellable;
 	ActorRef reqSocket = ZeroMQExtension.get(getContext().system())
 			.newReqSocket(
 					new SocketOption[] { new Connect("tcp://127.0.0.1:1237"),
@@ -22,7 +25,7 @@ public class ClientActor extends UntypedActor {
 
 	@Override
 	public void preStart() {
-		getContext()
+		cancellable = getContext()
 				.system()
 				.scheduler()
 				.schedule(Duration.parse("1 second"),
@@ -35,6 +38,9 @@ public class ClientActor extends UntypedActor {
 			// send a message to the replier system
 			reqSocket.tell(new ZMQMessage(new Frame("Hi there! ("
 					+ getContext().self().hashCode() + ")->")));
+			count++;
+			if (count == 10)
+				cancellable.cancel();
 		} else if (message instanceof ZMQMessage) {
 			ZMQMessage m = (ZMQMessage) message;
 			String mesg = new String(m.payload(0));

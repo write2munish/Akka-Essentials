@@ -1,9 +1,8 @@
 package org.akka.essentials.zeromq.example4;
 
 import akka.actor.ActorRef;
+import akka.actor.Cancellable;
 import akka.actor.UntypedActor;
-import akka.event.Logging;
-import akka.event.LoggingAdapter;
 import akka.util.Duration;
 import akka.zeromq.Bind;
 import akka.zeromq.Frame;
@@ -15,20 +14,19 @@ import akka.zeromq.ZeroMQExtension;
 public class PushActor extends UntypedActor {
 	public static final Object TICK = "TICK";
 	int count = 0;
+	Cancellable cancellable;
 	ActorRef pushSocket = ZeroMQExtension.get(getContext().system())
 			.newPushSocket(
 					new SocketOption[] { new Bind("tcp://127.0.0.1:1237"),
 							new Listener(getSelf()) });
-	LoggingAdapter log = Logging.getLogger(getContext().system(), this);
-
 	@Override
 	public void preStart() {
 
-		getContext()
+		cancellable = getContext()
 				.system()
 				.scheduler()
 				.schedule(Duration.parse("1 second"),
-						Duration.parse("10 second"), getSelf(), TICK);
+						Duration.parse("1 second"), getSelf(), TICK);
 	}
 
 	@Override
@@ -36,8 +34,10 @@ public class PushActor extends UntypedActor {
 		if (message.equals(TICK)) {
 
 			count++;
-			pushSocket.tell(new ZMQMessage(new Frame("Hi there (" + count
-					+ ")")));
+			pushSocket.tell(new ZMQMessage(
+					new Frame("Hi there (" + count + ")")));
+			if (count == 5)
+				cancellable.cancel();
 		}
 
 	}

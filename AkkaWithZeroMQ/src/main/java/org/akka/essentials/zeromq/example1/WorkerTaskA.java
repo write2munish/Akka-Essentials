@@ -25,7 +25,5 @@ public class WorkerTaskA extends UntypedActor {
 			String mesg = new String(m.payload(1));
 			log.info("Received Message @ A ->" + mesg);
 		}
-
 	}
-
 }

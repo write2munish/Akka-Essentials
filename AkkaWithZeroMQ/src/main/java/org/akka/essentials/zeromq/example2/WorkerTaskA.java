@@ -2,8 +2,6 @@ package org.akka.essentials.zeromq.example2;
 
 import akka.actor.ActorRef;
 import akka.actor.UntypedActor;
-import akka.event.Logging;
-import akka.event.LoggingAdapter;
 import akka.zeromq.Connect;
 import akka.zeromq.Frame;
 import akka.zeromq.Identity;
@@ -19,9 +17,6 @@ public class WorkerTaskA extends UntypedActor {
 							new Listener(getSelf()),
 							new Identity("A".getBytes()) });
 	
-	LoggingAdapter log = Logging.getLogger(getContext().system(), this);
-	int count = 0;
-
 	@Override
 	public void onReceive(Object message) throws Exception {
 

@@ -23,7 +23,6 @@ public class PullActor1 extends UntypedActor {
 		if (message instanceof ZMQMessage) {
 			ZMQMessage m = (ZMQMessage) message;
 			String mesg = new String(m.payload(0));
-
 			log.info("Received Message ->" + mesg);
 		}
 

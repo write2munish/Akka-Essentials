@@ -17,6 +17,6 @@ class WorkerTaskB extends Actor with ActorLogging {
     case m: ZMQMessage =>
       var mesg = new String(m.payload(0))
       subSocket.tell((new ZMQMessage(Frame(mesg
-        + " Processed the workload for B"))));
+        + " - Workload Processed by B"))));
   }
 }
