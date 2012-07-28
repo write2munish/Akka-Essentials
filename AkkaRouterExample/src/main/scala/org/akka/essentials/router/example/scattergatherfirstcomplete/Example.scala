@@ -11,15 +11,16 @@ import akka.util.duration._
 import akka.util.Timeout
 
 object Example {
-	def main(args: Array[String]): Unit = {}
-	val _system = ActorSystem.create("ScatterGatherFirstCompletedRouterExample")
-	val scatterGatherFirstCompletedRouter = _system.actorOf(Props[RandomTimeActor].withRouter(
-		ScatterGatherFirstCompletedRouter(nrOfInstances = 5, within = 5 seconds)), name = "myScatterGatherFirstCompletedRouterActor")
+  def main(args: Array[String]): Unit = {
+    val _system = ActorSystem.create("ScatterGatherFirstCompletedRouterExample")
+    val scatterGatherFirstCompletedRouter = _system.actorOf(Props[RandomTimeActor].withRouter(
+      ScatterGatherFirstCompletedRouter(nrOfInstances = 5, within = 5 seconds)), name = "myScatterGatherFirstCompletedRouterActor")
 
-	implicit val timeout = Timeout(5 seconds)
-	val futureResult = scatterGatherFirstCompletedRouter ? "message"
-	val result = Await.result(futureResult, timeout.duration)
-	System.out.println(result)
+    implicit val timeout = Timeout(5 seconds)
+    val futureResult = scatterGatherFirstCompletedRouter ? "message"
+    val result = Await.result(futureResult, timeout.duration)
+    System.out.println(result)
 
-	_system.shutdown()
+    _system.shutdown()
+  }
 }

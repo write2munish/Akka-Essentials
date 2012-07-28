@@ -8,19 +8,20 @@ import akka.routing.RoundRobinRouter
 import akka.routing.RandomRouter
 
 object Example1 {
-	
-	def main(args: Array[String]): Unit = {}
-	val _system = ActorSystem.create("CustomRouteeRouterExample")
 
-	val echoActor1 = _system.actorOf(Props[MsgEchoActor])
-	val echoActor2 = _system.actorOf(Props[MsgEchoActor])
-	val echoActor3 = _system.actorOf(Props[MsgEchoActor])
+  def main(args: Array[String]): Unit = {
+    val _system = ActorSystem.create("CustomRouteeRouterExample")
 
-	val routees = Vector[ActorRef](echoActor1, echoActor2, echoActor3)
+    val echoActor1 = _system.actorOf(Props[MsgEchoActor])
+    val echoActor2 = _system.actorOf(Props[MsgEchoActor])
+    val echoActor3 = _system.actorOf(Props[MsgEchoActor])
 
-	val randomRouter = _system.actorOf(Props[MsgEchoActor].withRouter(RandomRouter(routees = routees)))
-	1 to 10 foreach {
-		i => randomRouter ! i
-	}
-	_system.shutdown()
+    val routees = Vector[ActorRef](echoActor1, echoActor2, echoActor3)
+
+    val randomRouter = _system.actorOf(Props[MsgEchoActor].withRouter(RandomRouter(routees = routees)))
+    1 to 10 foreach {
+      i => randomRouter ! i
+    }
+    _system.shutdown()
+  }
 }

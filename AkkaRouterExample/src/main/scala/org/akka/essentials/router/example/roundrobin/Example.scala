@@ -7,16 +7,17 @@ import akka.actor.Props
 import akka.routing.RoundRobinRouter
 
 object Example {
-	def main(args: Array[String]): Unit = {}
-	val _system = ActorSystem.create("RoundRobinRouterExample")
-	val roundRobinRouter = _system.actorOf(Props[MsgEchoActor].withRouter(RoundRobinRouter(5)), name = "myRoundRobinRouterActor")
-	1 to 10 foreach {
-		i =>
-			roundRobinRouter ! i
-			if (i == 5) {
-				TimeUnit.MILLISECONDS.sleep(100);
-				System.out.println("\n");
-			}
-	}
-	_system.shutdown()
+  def main(args: Array[String]): Unit = {
+    val _system = ActorSystem.create("RoundRobinRouterExample")
+    val roundRobinRouter = _system.actorOf(Props[MsgEchoActor].withRouter(RoundRobinRouter(5)), name = "myRoundRobinRouterActor")
+    1 to 10 foreach {
+      i =>
+        roundRobinRouter ! i
+        if (i == 5) {
+          TimeUnit.MILLISECONDS.sleep(100);
+          System.out.println("\n");
+        }
+    }
+    _system.shutdown()
+  }
 }

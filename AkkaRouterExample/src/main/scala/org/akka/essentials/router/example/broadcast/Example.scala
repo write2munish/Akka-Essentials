@@ -6,12 +6,13 @@ import akka.routing.BroadcastRouter
 
 object Example {
 
-	def main(args: Array[String]): Unit = {}
-	val _system = ActorSystem.create("BroadcastRouterExample")
-	val broadcastRouter = _system.actorOf(Props[MsgEchoActor].withRouter(BroadcastRouter(5)), name = "myBroadcastRouterActor")
-	1 to 1 foreach {
-		i => broadcastRouter ! i
-	}
-	_system.shutdown()
+  def main(args: Array[String]): Unit = {
+    val _system = ActorSystem.create("BroadcastRouterExample")
+    val broadcastRouter = _system.actorOf(Props[MsgEchoActor].withRouter(BroadcastRouter(5)), name = "myBroadcastRouterActor")
+    1 to 1 foreach {
+      i => broadcastRouter ! i
+    }
+    _system.shutdown()
+  }
 
 }
