@@ -22,7 +22,7 @@ public class ClientActor extends UntypedActor {
 				log.info("Sending message to server - message# Hi there");
 				remote.tell("Hi there", getSelf());
 			} else {
-				log.info("Message recieved from Server -> " + message);
+				log.info("Message received from Server -> " + message);
 			}
 		}
 
