@@ -28,6 +28,7 @@ import akka.testkit.TestKit
 import akka.testkit.TestProbe
 import akka.util.duration.intToDurationInt
 import akka.util.Timeout
+import akka.testkit.CallingThreadDispatcher
 
 @RunWith(classOf[JUnitRunner])
 class ExampleUnitTest(_system: ActorSystem) extends TestKit(_system) with ImplicitSender
@@ -38,7 +39,7 @@ class ExampleUnitTest(_system: ActorSystem) extends TestKit(_system) with Implic
 
   "Test Echo actor" must {
     "send back messages unchanged" in {
-      val echo = system.actorOf(Props[EchoActor])
+      val echo = system.actorOf(Props[EchoActor].withDispatcher(CallingThreadDispatcher.Id))
       echo ! "Hi there"
       expectMsg("Hi there")
     }
@@ -46,7 +47,7 @@ class ExampleUnitTest(_system: ActorSystem) extends TestKit(_system) with Implic
 
   "Test Forwarding actor" must {
     "forwards the messages unchanged to another actor" in {
-      val forwarding = system.actorOf(Props(new ForwardingActor(this.testActor)))
+      val forwarding = system.actorOf(Props(new ForwardingActor(this.testActor)).withDispatcher(CallingThreadDispatcher.Id))
       forwarding ! "test message"
       expectMsg("test message")
     }
@@ -75,7 +76,7 @@ class ExampleUnitTest(_system: ActorSystem) extends TestKit(_system) with Implic
 
   "Test Filtering actor" must {
     "filters out messages" in {
-      val filtering = system.actorOf(Props(new FilteringActor(this.testActor)))
+      val filtering = system.actorOf(Props(new FilteringActor(this.testActor)).withDispatcher(CallingThreadDispatcher.Id))
       filtering ! "test message"
       expectMsg("test message")
       filtering ! Integer.valueOf(1)
@@ -87,9 +88,9 @@ class ExampleUnitTest(_system: ActorSystem) extends TestKit(_system) with Implic
     "checks for terminated workers" in {
       implicit val timeout = Timeout(5 seconds)
 
-      val supervisor = system.actorOf(Props[SupervisorActor])
-      val future = supervisor ? Props[BoomActor]
-      val child = Await.result(future, timeout.duration).asInstanceOf[ActorRef]
+      val supervisor = system.actorOf(Props[SupervisorActor].withDispatcher(CallingThreadDispatcher.Id))
+      val future = (supervisor ? Props[BoomActor]).mapTo[ActorRef]
+      val child = Await.result(future, timeout.duration)
 
       child.tell(Integer.valueOf(123))
 
@@ -102,16 +103,16 @@ class ExampleUnitTest(_system: ActorSystem) extends TestKit(_system) with Implic
     "checks for terminated workers" in {
       implicit val timeout = Timeout(5 seconds)
 
-      val supervisor = system.actorOf(Props[SupervisorActor])
+      val supervisor = system.actorOf(Props[SupervisorActor].withDispatcher(CallingThreadDispatcher.Id))
       val probe = TestProbe()
 
-      val future = supervisor ? Props[BoomActor]
-      val child = Await.result(future, timeout.duration).asInstanceOf[ActorRef]
+      val future = (supervisor ? Props[BoomActor]).mapTo[ActorRef]
+      val child = Await.result(future, timeout.duration)
 
       probe.watch(child);
 
       child.tell("do something")
-      probe.expectMsg(new Terminated(child))
+      probe.expectMsg(Terminated(child))
 
     }
   }

@@ -3,7 +3,7 @@ import akka.serialization.SerializationExtension
 import akka.actor.ActorSystem
 import com.typesafe.config.ConfigFactory
 
-
+case class MyMessage( name: String, age: Int, city: String) 
 
 object MySerializationApp {
 
@@ -17,7 +17,7 @@ object MySerializationApp {
 
     val originalMessage = new MyMessage("Munish", 36, "Bangalore")
 
-    log.info("The original message is as " + originalMessage)
+    log.info("The original message is as {}", originalMessage)
 
     // Get the Binded Serializer for it
     val serializer = serialization
@@ -30,7 +30,7 @@ object MySerializationApp {
     val deSerializedMessage = serializer.fromBinary(
       bytes, classOf[MyMessage])
 
-    log.info("The de-serialized message is as " + deSerializedMessage);
+    log.info("The de-serialized message is as {}",deSerializedMessage);
     
     system.shutdown
   }

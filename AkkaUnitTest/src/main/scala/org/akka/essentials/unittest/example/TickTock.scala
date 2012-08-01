@@ -11,10 +11,9 @@ class TickTock extends Actor {
   def receive: Receive = {
     case message: Tick => tick_this(message)
     case message: Tock => tock_this(message);
-    case _ => unhandled()
   }
 
-   def tock_this(message: Object) = {
+   def tock_this(message: Tock) = {
     // do some processing here
     if (state == false)
       state = true;
@@ -22,7 +21,7 @@ class TickTock extends Actor {
       state = false;
   }
 
-  def tick_this(message: Object) = {
+  def tick_this(message: Tick) = {
     // do some processing here
     sender.tell("processed the tick message");
   }

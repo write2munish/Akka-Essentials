@@ -2,17 +2,15 @@ package org.akka.essentials.unittest.example
 
 import org.akka.essentials.unittest.example.TickTock
 import org.junit.Assert
-
 import com.typesafe.config.ConfigFactory
-
 import akka.actor.ActorSystem
-import akka.actor.Props
 import akka.dispatch.Await
 import akka.pattern.ask
 import akka.testkit.TestActorRef
 import akka.util.duration.intToDurationInt
 import akka.util.Timeout
 import junit.framework.TestCase
+import org.junit.runner.RunWith
 
 class TickTockTest extends TestCase {
 
@@ -32,10 +30,10 @@ class TickTockTest extends TestCase {
     val actor: TickTock = actorRef.underlyingActor
     // access the methods the actor object and directly pass arguments and
     // test
-    actor.tock_this("tock something")
+    actor.tock_this(new Tock)
     Assert.assertTrue(actor.state);
 
-    actor.tock_this("once again");
+    actor.tock_this(new Tock);
     Assert.assertFalse(actor.state);
   }
 
@@ -43,8 +41,8 @@ class TickTockTest extends TestCase {
     val actorRef = TestActorRef[TickTock]
 
     implicit val timeout = Timeout(5 seconds)
-    val future = actorRef ? new Tick()
-    val result = Await.result(future, timeout.duration).asInstanceOf[String]
+    val future = (actorRef ? new Tick).mapTo[String]
+    val result = Await.result(future, timeout.duration)
 
     Assert.assertEquals("processed the tick message", result)
   }
