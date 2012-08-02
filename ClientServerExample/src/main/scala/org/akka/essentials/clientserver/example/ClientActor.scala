@@ -19,7 +19,7 @@ class ClientActor extends Actor with ActorLogging {
   //First option - Get a reference to the remote actor
   var serverActor = context.actorFor("akka://ServerSys@127.0.0.1:2552/user/serverActor")
   // Second option - create remote Actor instance
-  val addr = Address("akka", "ServerSys", "127.0.0.1", 2552);
+  val addr = Address("akka", "ServerSys", "127.0.0.1", 2552)
 
   serverActor = context.actorOf(Props[ServerActor].withDeploy(Deploy(scope = RemoteScope(addr))))
   //Third option - creating the actor using the actor name 

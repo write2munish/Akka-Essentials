@@ -2,8 +2,6 @@ package org.akka.essentials.zeromq.example3.server;
 
 import akka.actor.ActorRef;
 import akka.actor.UntypedActor;
-import akka.event.Logging;
-import akka.event.LoggingAdapter;
 import akka.zeromq.Bind;
 import akka.zeromq.Frame;
 import akka.zeromq.Listener;
@@ -16,7 +14,6 @@ public class ServerActor extends UntypedActor {
 			.newRepSocket(
 					new SocketOption[] { new Bind("tcp://127.0.0.1:1237"),
 							new Listener(getSelf()) });
-	LoggingAdapter log = Logging.getLogger(getContext().system(), this);
 
 	@Override
 	public void onReceive(Object message) throws Exception {
@@ -24,8 +21,8 @@ public class ServerActor extends UntypedActor {
 			ZMQMessage m = (ZMQMessage) message;
 			String mesg = new String(m.payload(0));
 
-			repSocket.tell((new ZMQMessage(new Frame(mesg
-					+ " Good to see you!"))));
+			repSocket.tell((new ZMQMessage(
+					new Frame(mesg + " Good to see you!"))));
 		}
 	}
 }

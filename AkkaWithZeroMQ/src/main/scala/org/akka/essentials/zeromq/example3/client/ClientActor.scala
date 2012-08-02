@@ -14,25 +14,25 @@ import akka.actor.Cancellable
 case class Tick
 
 class ClientActor extends Actor with ActorLogging {
-	val reqSocket = ZeroMQExtension(context.system).newSocket(SocketType.Req, Connect("tcp://127.0.0.1:1234"), Listener(self))
+  val reqSocket = ZeroMQExtension(context.system).newSocket(SocketType.Req, Connect("tcp://127.0.0.1:1234"), Listener(self))
 
-	var count = 0
-	var cancellable: Cancellable = null
-	override def preStart() {
-		cancellable = context.system.scheduler.schedule(1 second, 1 second, self, Tick)
-	}
+  var count = 0
+  var cancellable: Cancellable = null
+  override def preStart() {
+    cancellable = context.system.scheduler.schedule(1 second, 1 second, self, Tick)
+  }
 
-	def receive: Receive = {
-		case Tick =>
-			count += 1
-			var payload = "Hi there! (" + context.self.hashCode() + ")->"
-			reqSocket ! ZMQMessage(Seq(Frame(payload)))
-			if (count == 5) {
-				cancellable.cancel()
-			}
-		case m: ZMQMessage =>
-			var mesg = new String(m.payload(0));
+  def receive: Receive = {
+    case Tick =>
+      count += 1
+      var payload = "Hi there! (" + context.self.hashCode() + ")->"
+      reqSocket ! ZMQMessage(Seq(Frame(payload)))
+      if (count == 5) {
+        cancellable.cancel()
+      }
+    case m: ZMQMessage =>
+      var mesg = new String(m.payload(0))
 
-			log.info("recieved msg! " + mesg);
-	}
+      log.info("recieved msg! {}", mesg)
+  }
 }

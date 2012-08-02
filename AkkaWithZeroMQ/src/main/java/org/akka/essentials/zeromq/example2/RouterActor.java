@@ -54,12 +54,12 @@ public class RouterActor extends UntypedActor {
 			count++;
 			if (count == 10)
 				cancellable.cancel();
-			
+
 		} else if (message instanceof ZMQMessage) {
 			ZMQMessage m = (ZMQMessage) message;
 			String replier = new String(m.payload(0));
 			String msg = new String(m.payload(1));
-			log.info("Received message from " + replier + " with mesg ->" + msg);
+			log.info("Received message from {} with mesg -> {}", replier, msg);
 		}
 
 	}

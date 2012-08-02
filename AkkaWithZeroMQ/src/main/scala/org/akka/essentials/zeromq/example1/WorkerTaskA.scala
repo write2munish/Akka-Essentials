@@ -14,6 +14,6 @@ class WorkerTaskA extends Actor with ActorLogging {
   def receive = {
     case m: ZMQMessage =>
       var mesg = new String(m.payload(1))
-      log.info("Received Message @ A ->" + mesg);
+      log.info("Received Message @ A -> {}", mesg)
   }
 }

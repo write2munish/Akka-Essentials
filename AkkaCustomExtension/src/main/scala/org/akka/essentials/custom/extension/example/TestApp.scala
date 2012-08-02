@@ -5,13 +5,14 @@ import akka.actor.ActorSystem
 
 object TestApp {
 
-  def main(args: Array[String]): Unit = {}
-  val system = ActorSystem("Extension-Test", ConfigFactory.load()
-    .getConfig("TestApp"))
+  def main(args: Array[String]): Unit = {
+    val system = ActorSystem("Extension-Test", ConfigFactory.load()
+      .getConfig("TestApp"))
 
-  val mysqlSetting = MySQLJDBCSettings(system)
+    val mysqlSetting = MySQLJDBCSettings(system)
 
-  System.out.println(mysqlSetting.DB_NAME);
-  System.out.println(mysqlSetting.DB_URL);
+    System.out.println(mysqlSetting.DB_NAME);
+    System.out.println(mysqlSetting.DB_URL);
+  }
 
 }

@@ -137,11 +137,7 @@ public class ExampleUnitTest extends TestKit {
 	public void testSupervisorStrategy1() throws Exception {
 
 		final TestActorRef<SupervisorActor> supervisorActorRef1 = TestActorRef
-				.apply(new Props(new UntypedActorFactory() {
-					public UntypedActor create() {
-						return new SupervisorActor();
-					}
-				}), "supervisor1", _system);
+				.apply(new Props(SupervisorActor.class), "supervisor1", _system);
 
 		Duration timeout = Duration.parse("5 second");
 		// register the BoomActor with the Supervisor
@@ -159,11 +155,7 @@ public class ExampleUnitTest extends TestKit {
 	public void testSupervisorStrategy2() throws Exception {
 
 		TestActorRef<SupervisorActor> supervisorActorRef2 = TestActorRef.apply(
-				new Props(new UntypedActorFactory() {
-					public UntypedActor create() {
-						return new SupervisorActor();
-					}
-				}), "supervisor2", _system);
+				new Props(SupervisorActor.class), "supervisor2", _system);
 
 		final TestProbe probe = new TestProbe(_system);
 		// register the BoomActor with the Supervisor

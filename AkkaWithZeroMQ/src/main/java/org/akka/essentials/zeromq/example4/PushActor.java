@@ -19,6 +19,7 @@ public class PushActor extends UntypedActor {
 			.newPushSocket(
 					new SocketOption[] { new Bind("tcp://127.0.0.1:1237"),
 							new Listener(getSelf()) });
+
 	@Override
 	public void preStart() {
 

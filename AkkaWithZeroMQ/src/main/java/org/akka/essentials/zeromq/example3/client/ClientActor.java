@@ -45,7 +45,7 @@ public class ClientActor extends UntypedActor {
 			ZMQMessage m = (ZMQMessage) message;
 			String mesg = new String(m.payload(0));
 
-			log.info("recieved msg! " + mesg);
+			log.info("Received msg! {}", mesg);
 		}
 	}
 }

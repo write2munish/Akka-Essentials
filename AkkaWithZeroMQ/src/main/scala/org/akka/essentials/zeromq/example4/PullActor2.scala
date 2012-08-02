@@ -12,7 +12,7 @@ class PullActor2 extends Actor with ActorLogging {
 
   def receive: Receive = {
     case m: ZMQMessage =>
-      var mesg = new String(m.payload(0));
-      log.info("Received Message ->" + mesg);
+      var mesg = new String(m.payload(0))
+      log.info("Received Message -> {}", mesg)
   }
 }
