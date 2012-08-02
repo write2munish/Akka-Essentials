@@ -1,9 +1,10 @@
 package org.akka.essentials.router.example
 import akka.actor.Actor
+import akka.actor.ActorLogging
 
-class MsgEchoActor extends Actor {
-	def receive: Receive = {
-		case message =>
-			System.out.println("Received Message " + message + " in Actor " + self.path.name)
-	}
+class MsgEchoActor extends Actor with ActorLogging {
+  def receive: Receive = {
+    case message =>
+      log.info("Received Message {} in Actor {}", message, self.path.name)
+  }
 }

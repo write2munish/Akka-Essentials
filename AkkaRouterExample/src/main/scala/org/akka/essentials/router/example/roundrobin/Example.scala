@@ -8,7 +8,7 @@ import akka.routing.RoundRobinRouter
 
 object Example {
   def main(args: Array[String]): Unit = {
-    val _system = ActorSystem.create("RoundRobinRouterExample")
+    val _system = ActorSystem("RoundRobinRouterExample")
     val roundRobinRouter = _system.actorOf(Props[MsgEchoActor].withRouter(RoundRobinRouter(5)), name = "myRoundRobinRouterActor")
     1 to 10 foreach {
       i =>

@@ -12,9 +12,9 @@ import akka.util.Timeout
 
 object Example {
   def main(args: Array[String]): Unit = {
-    val _system = ActorSystem.create("ScatterGatherFirstCompletedRouterExample")
+    val _system = ActorSystem("SGFCRouterExample")
     val scatterGatherFirstCompletedRouter = _system.actorOf(Props[RandomTimeActor].withRouter(
-      ScatterGatherFirstCompletedRouter(nrOfInstances = 5, within = 5 seconds)), name = "myScatterGatherFirstCompletedRouterActor")
+      ScatterGatherFirstCompletedRouter(nrOfInstances = 5, within = 5 seconds)), name = "mySGFCRouterActor")
 
     implicit val timeout = Timeout(5 seconds)
     val futureResult = scatterGatherFirstCompletedRouter ? "message"
