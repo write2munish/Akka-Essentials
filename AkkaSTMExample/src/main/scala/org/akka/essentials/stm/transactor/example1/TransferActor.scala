@@ -12,8 +12,8 @@ import akka.util.Timeout
 
 class TransferActor extends Actor {
 
-  val fromAccount = "XYZ";
-  val toAccount = "ABC";
+  val fromAccount = "XYZ"
+  val toAccount = "ABC"
 
   val from = context.actorOf(Props(new Account(fromAccount, Ref(5000))), name = fromAccount)
   val to = context.actorOf(Props(new Account(toAccount, Ref(1000))), name = toAccount)

@@ -15,43 +15,44 @@ case class TransferMsg(amtToBeTransferred: Float)
 
 object Bank {
 
-  def main(args: Array[String]): Unit = {}
-  val system = ActorSystem("STM-Example")
-  implicit val timeout = Timeout(5 seconds)
+  def main(args: Array[String]): Unit = {
+    val system = ActorSystem("STM-Example")
+    implicit val timeout = Timeout(5 seconds)
 
-  val transfer = system.actorOf(Props[TransferActor], name = "transferActor")
+    val transfer = system.actorOf(Props[TransferActor], name = "transferActor")
 
-  transfer.tell(new TransferMsg(1500));
+    transfer.tell(new TransferMsg(1500));
 
-  showBalances();
+    showBalances();
 
-  transfer.tell(new TransferMsg(1400));
+    transfer.tell(new TransferMsg(1400));
 
-  showBalances();
+    showBalances();
 
-  transfer.tell(new TransferMsg(3500));
+    transfer.tell(new TransferMsg(3500));
 
-  showBalances();
+    showBalances();
 
-  system.shutdown()
+    system.shutdown()
 
-  def showBalances(): Unit = {
-    
-    Thread.sleep(2000)
-    
-    var future = transfer ? new AccountBalance("XYZ", Float.parseFloat("0"))
+    def showBalances(): Unit = {
 
-    var balance = Await.result(future, timeout.duration).asInstanceOf[AccountBalance]
+      Thread.sleep(2000)
 
-    System.out.println("Account #" + balance.accountNumber
-      + " , Balance " + balance.accountBalance);
+      var future = transfer ? new AccountBalance("XYZ", Float.parseFloat("0"))
 
-    future = transfer ? new AccountBalance("ABC", Float.parseFloat("0"))
+      var balance = Await.result(future, timeout.duration).asInstanceOf[AccountBalance]
 
-    balance = Await.result(future, timeout.duration).asInstanceOf[AccountBalance]
+      System.out.println("Account #" + balance.accountNumber
+        + " , Balance " + balance.accountBalance);
 
-    System.out.println("Account #" + balance.accountNumber
-      + " , Balance " + balance.accountBalance);
+      future = transfer ? new AccountBalance("ABC", Float.parseFloat("0"))
+
+      balance = Await.result(future, timeout.duration).asInstanceOf[AccountBalance]
+
+      System.out.println("Account #" + balance.accountNumber
+        + " , Balance " + balance.accountBalance);
+    }
   }
 
 }

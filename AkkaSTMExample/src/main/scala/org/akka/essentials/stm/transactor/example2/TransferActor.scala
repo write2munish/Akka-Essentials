@@ -13,8 +13,8 @@ import java.lang.Float
 
 class TransferActor extends Actor {
 
-  val fromAccount = "XYZ";
-  val toAccount = "ABC";
+  val fromAccount = "XYZ"
+  val toAccount = "ABC"
 
   val from = context.actorOf(Props(new Account(fromAccount, Float.parseFloat("5000"))), name = fromAccount)
   val to = context.actorOf(Props(new Account(toAccount, Float.parseFloat("1000"))), name = toAccount)

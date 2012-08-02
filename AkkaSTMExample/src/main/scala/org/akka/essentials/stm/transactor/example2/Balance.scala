@@ -17,6 +17,6 @@ class Balance(balance: Ref[Float]) extends Transactor {
   override def normally: Receive = {
     case message: String =>
       if ("BALANCE".equals(message))
-        sender.tell(balance.single.get);
+        sender.tell(balance.single.get)
   }
 }

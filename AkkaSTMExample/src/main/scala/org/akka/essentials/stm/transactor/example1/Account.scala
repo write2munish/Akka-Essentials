@@ -7,7 +7,7 @@ import akka.actor.ActorLogging
 class Account(accountNumber: String, balance: Ref[Float]) extends Actor with ActorLogging {
 
   override def preStart() {
-    log.info("Starting Account account#" + accountNumber + "  with balance#" + balance.single.get);
+    log.info("Starting Account account# {} with balance# {}", accountNumber, balance.single.get)
   }
 
   def receive = {
