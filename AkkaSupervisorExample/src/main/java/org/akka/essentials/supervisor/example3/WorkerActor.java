@@ -6,12 +6,11 @@ import akka.event.LoggingAdapter;
 
 public class WorkerActor extends UntypedActor {
 	LoggingAdapter log = Logging.getLogger(getContext().system(), this);
-	@SuppressWarnings("unused")
 	private int state = 0;
 
 	@Override
 	public void preStart() {
-		log.info("Starting WorkerActor instance hashcode #" + this.hashCode());
+		log.info("Starting WorkerActor instance hashcode # {}", this.hashCode());
 	}
 
 	public void onReceive(Object o) throws Exception {
@@ -28,7 +27,7 @@ public class WorkerActor extends UntypedActor {
 
 	@Override
 	public void postStop() {
-		log.info("Stopping WorkerActor instance hashcode #" + this.hashCode());
+		log.info("Stopping WorkerActor instance hashcode # {}", this.hashCode());
 
 	}
 }

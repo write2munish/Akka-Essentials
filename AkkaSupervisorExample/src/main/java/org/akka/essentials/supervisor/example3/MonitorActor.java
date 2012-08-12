@@ -19,8 +19,8 @@ public class MonitorActor extends UntypedActor {
 		if (message instanceof Terminated) {
 			final Terminated t = (Terminated) message;
 			if (monitoredActors.containsKey(t.getActor())) {
-				log.info("Received Worker Actor Termination Message -> "
-						+ t.getActor().path());
+				log.info("Received Worker Actor Termination Message -> {}", t
+						.getActor().path());
 				log.info("Sending message to Supervisor");
 				monitoredActors.get(t.getActor()).tell(new DeadWorker());
 			}

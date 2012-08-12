@@ -16,22 +16,22 @@ case class Result
 case class DeadWorker
 case class RegisterWorker(val worker: ActorRef, val supervisor: ActorRef)
 
-object MyActorSystem extends App {
+object MyActorSystem {
+  
+  def main(args: Array[String]): Unit = {
+    val system = ActorSystem("faultTolerance")
 
-  val system = ActorSystem("faultTolerance")
-  val log = system.log
+    val supervisor = system.actorOf(Props[SupervisorActor], name = "supervisor")
 
-  val supervisor = system.actorOf(Props[SupervisorActor], name = "supervisor")
+    var mesg: Int = 8
+    supervisor ! mesg
 
-  var mesg: Int = 8;
-  supervisor ! mesg
+    supervisor ! "Do Something"
 
-  supervisor ! "Do Something"
+    Thread.sleep(4000)
 
-  Thread.sleep(4000)
+    supervisor ! mesg
 
-  supervisor ! mesg
-
-  system.shutdown();
-
+    system.shutdown
+  }
 }

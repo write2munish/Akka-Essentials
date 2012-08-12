@@ -8,26 +8,27 @@ import akka.actor.Props;
 import akka.dispatch.Await;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
-import akka.kernel.Bootable;
 import akka.pattern.Patterns;
 import akka.util.Duration;
 
-public class MyActorSystem implements Bootable {
+public class MyActorSystem {
 
 	public static class Result {
 	}
 
-	LoggingAdapter log = null;
-	ActorSystem system = null;
+	/**
+	 * @param args
+	 * @throws Exception
+	 */
+	public static void main(String[] args) throws Exception {
+		ActorSystem system = ActorSystem.create("faultTolerance");
 
-	public MyActorSystem() throws Exception {
-		system = ActorSystem.create("faultTolerance");
-
-		log = Logging.getLogger(system, this);
+		LoggingAdapter log = Logging.getLogger(system, system);
 
 		Integer originalValue = Integer.valueOf(0);
 
-		ActorRef supervisor = system.actorOf(new Props(SupervisorActor.class), "supervisor");
+		ActorRef supervisor = system.actorOf(new Props(SupervisorActor.class),
+				"supervisor");
 
 		log.info("Sending value 8, no exceptions should be thrown! ");
 		supervisor.tell(Integer.valueOf(8));
@@ -36,7 +37,7 @@ public class MyActorSystem implements Bootable {
 				Patterns.ask(supervisor, new Result(), 5000),
 				Duration.create(5000, TimeUnit.MILLISECONDS));
 
-		log.info("Value Recieved->" + result);
+		log.info("Value Received-> {}", result);
 		assert result.equals(Integer.valueOf(8));
 
 		log.info("Sending value -8, ArithmeticException should be thrown! Our Supervisor strategy says resume !");
@@ -46,7 +47,7 @@ public class MyActorSystem implements Bootable {
 				Patterns.ask(supervisor, new Result(), 5000),
 				Duration.create(5000, TimeUnit.MILLISECONDS));
 
-		log.info("Value Recieved->" + result);
+		log.info("Value Received-> {}", result);
 		assert result.equals(Integer.valueOf(8));
 
 		log.info("Sending value null, NullPointerException should be thrown! Our Supervisor strategy says restart !");
@@ -56,7 +57,7 @@ public class MyActorSystem implements Bootable {
 				Patterns.ask(supervisor, new Result(), 5000),
 				Duration.create(5000, TimeUnit.MILLISECONDS));
 
-		log.info("Value Recieved->" + result);
+		log.info("Value Received-> {}", result);
 		assert originalValue.equals(result);
 
 		log.info("Sending value \"String\", NullPointerException should be thrown! Our Supervisor strategy says Stop !");
@@ -65,27 +66,6 @@ public class MyActorSystem implements Bootable {
 
 		log.info("Worker Actor shutdown !");
 		system.shutdown();
-	}
-
-	/**
-	 * @param args
-	 * @throws Exception
-	 */
-	public static void main(String[] args) {
-		MyActorSystem myActorSystem = null;
-		try {
-			myActorSystem = new MyActorSystem();
-		} catch (Exception e) {
-			myActorSystem.shutdown();
-		}
-	}
-
-	public void shutdown() {
-		system.shutdown();
-	}
-
-	public void startup() {
-
 	}
 
 }

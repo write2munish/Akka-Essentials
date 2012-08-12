@@ -12,7 +12,8 @@ public class WorkerActor1 extends UntypedActor {
 
 	@Override
 	public void preStart() {
-		log.info("Starting WorkerActor1 instance hashcode #" + this.hashCode());
+		log.info("Starting WorkerActor1 instance hashcode # {}",
+				this.hashCode());
 	}
 
 	public void onReceive(Object o) throws Exception {
@@ -33,7 +34,8 @@ public class WorkerActor1 extends UntypedActor {
 
 	@Override
 	public void postStop() {
-		log.info("Stopping WorkerActor1 instance hashcode #" + this.hashCode());
+		log.info("Stopping WorkerActor1 instance hashcode # {}",
+				this.hashCode());
 
 	}
 }

@@ -8,7 +8,7 @@ import akka.actor.Terminated
 
 class MonitorActor extends Actor with ActorLogging {
 
-  var monitoredActors = new HashMap[ActorRef, ActorRef];
+  var monitoredActors = new HashMap[ActorRef, ActorRef]
 
   def receive: Receive = {
     case t: Terminated =>
