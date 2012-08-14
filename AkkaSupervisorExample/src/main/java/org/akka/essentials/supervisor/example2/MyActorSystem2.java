@@ -60,7 +60,7 @@ public class MyActorSystem2 {
 		log.info("Value Received-> {}", result);
 		assert originalValue.equals(result);
 
-		log.info("Sending value \"String\", NullPointerException should be thrown! Our Supervisor strategy says Stop !");
+		log.info("Sending value \"String\", IllegalArgumentException should be thrown! Our Supervisor strategy says Stop !");
 
 		supervisor.tell(String.valueOf("Do Something"));
 

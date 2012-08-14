@@ -21,7 +21,7 @@ public class WorkerActor extends UntypedActor {
 		} else if (o instanceof Result) {
 			getSender().tell(state);
 		} else {
-			throw new IllegalArgumentException("Wrong Arguement");
+			throw new IllegalArgumentException("Wrong Argument");
 		}
 	}
 
