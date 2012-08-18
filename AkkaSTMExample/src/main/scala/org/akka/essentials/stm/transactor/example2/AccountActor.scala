@@ -24,8 +24,11 @@ class AccountActor(accountNumber: String, accBalance: Float) extends Actor {
       val future = (balance ? "BALANCE").mapTo[Float]
       val balanceVal = Await.result(future, timeout.duration)
       sender ! new AccountBalance(accountNumber, balanceVal)
-    case message: Coordinated =>
-      balance.tell(message)
+    case coordinated: Coordinated =>
+      val message = coordinated.getMessage()
+      coordinated atomic { implicit t =>
+        balance ! coordinated(message)
+      }
     case message: AccountDebit =>
       balance.tell(message, sender)
     case message: AccountCredit =>

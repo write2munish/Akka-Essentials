@@ -22,18 +22,12 @@ class TransferActor extends Actor {
   def receive: Receive = {
     case message: TransferMsg =>
       val coordinated = Coordinated()
-      //   try {
       coordinated atomic { implicit t =>
         from ! coordinated(new AccountDebit(
           message.amtToBeTransferred))
         to ! coordinated(new AccountCredit(
           message.amtToBeTransferred))
       }
-    //      } catch {
-    //        case e:Exception =>
-    //        // eat the exception
-    //          e.printStackTrace()
-    //      }
     case message: AccountBalance =>
       if (message.accountNumber.equalsIgnoreCase(fromAccount))
         from.tell(message, sender)
