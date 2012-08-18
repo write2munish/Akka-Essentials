@@ -24,7 +24,8 @@ import akka.util.Duration;
 public class AccountActor extends UntypedActor {
 
 	String accountNumber;
-	ActorRef balance = context().actorOf(new Props(BalanceTransactor.class),"BalanceActor");
+	ActorRef balance = context().actorOf(new Props(BalanceTransactor.class),
+			"BalanceActor");
 
 	public AccountActor(String accNo, Float bal) {
 		this.accountNumber = accNo;
@@ -34,8 +35,14 @@ public class AccountActor extends UntypedActor {
 	@Override
 	public void onReceive(Object o) throws Exception {
 		if (o instanceof Coordinated) {
-			// pass the message to the untypedtransctor
-			balance.tell(o);
+			final Coordinated coordinated = (Coordinated) o;
+			final Object message = coordinated.getMessage();
+			coordinated.atomic(new Runnable() {
+				public void run() {
+					// pass the message to the untypedtransctor
+					balance.tell(coordinated.coordinate(message));
+				}
+			});
 		} else if (o instanceof AccountBalance) {
 			Float amtbalance = (Float) Await.result(
 					ask(balance, "BALANCE", 1000), Duration.parse("1 second"));

@@ -49,24 +49,18 @@ public class TransferActor extends UntypedActor {
 			final TransferMsg transfer = (TransferMsg) message;
 			Timeout timeout = new Timeout(5, TimeUnit.SECONDS);
 			final Coordinated coordinated = new Coordinated(timeout);
-			// add try catch block to prevent the exception being escalated
-			// further
-			try {
-				coordinated.atomic(new Runnable() {
-					public void run() {
-						// credit amount - will always be successful
-						to.tell(coordinated.coordinate(new AccountCredit(
-								transfer.getAmtToBeTransferred())));
-						// debit amount - throws an exception if funds
-						// insufficient
-						from.tell(coordinated.coordinate(new AccountDebit(
-								transfer.getAmtToBeTransferred())));
-					}
-				});
-			} catch (CoordinatedTransactionException e) {
-				// eat the exception
+			coordinated.atomic(new Runnable() {
+				public void run() {
+					// credit amount - will always be successful
+					to.tell(coordinated.coordinate(new AccountCredit(transfer
+							.getAmtToBeTransferred())));
+					// debit amount - throws an exception if funds
+					// insufficient
+					from.tell(coordinated.coordinate(new AccountDebit(transfer
+							.getAmtToBeTransferred())));
+				}
+			});
 
-			}
 		} else if (message instanceof AccountBalance) {
 
 			AccountBalance accBalance = (AccountBalance) message;

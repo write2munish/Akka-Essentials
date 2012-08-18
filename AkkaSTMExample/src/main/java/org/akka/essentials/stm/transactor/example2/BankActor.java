@@ -53,7 +53,7 @@ public class BankActor extends UntypedActor {
 					if (t instanceof CoordinatedTransactionException) {
 						return resume();
 					} else if (t instanceof IllegalStateException) {
-						return stop();
+						return resume();
 					} else if (t instanceof IllegalArgumentException) {
 						return stop();
 					} else {
