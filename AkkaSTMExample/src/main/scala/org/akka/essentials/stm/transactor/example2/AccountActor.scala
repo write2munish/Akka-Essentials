@@ -10,35 +10,26 @@ import akka.dispatch.Await
 import akka.util.Timeout
 import akka.pattern.ask
 import akka.actor.Props
+import akka.transactor.Transactor
+import scala.concurrent.stm.Ref
 
-class AccountActor(accountNumber: String, accBalance: Float) extends Actor {
+class AccountActor(accountNumber: String, inBalance: Float) extends Transactor {
 
-  val balance = context.actorOf(Props[BalanceTransactor], name = "BalanceActor")
-  implicit val timeout = Timeout(1 seconds)
-  override def preStart() {
-    balance ! new AccountCredit(accBalance)
-  }
+  val balance = Ref(inBalance)
 
-  def receive = {
-    case value: AccountBalance =>
-      val future = (balance ? "BALANCE").mapTo[Float]
-      val balanceVal = Await.result(future, timeout.duration)
-      sender ! new AccountBalance(accountNumber, balanceVal)
-    case coordinated: Coordinated =>
-      val message = coordinated.getMessage()
-      coordinated atomic { implicit t =>
-        balance ! coordinated(message)
-      }
+  def atomically = implicit txn => {
     case message: AccountDebit =>
-      balance.tell(message, sender)
+      if (balance.single.get < message.amount)
+        throw new IllegalStateException("Insufficient Balance")
+      else
+        balance transform (_ - message.amount)
     case message: AccountCredit =>
-      balance.tell(message, sender)
+      balance transform (_ + message.amount)
   }
 
-  override val supervisorStrategy = AllForOneStrategy(maxNrOfRetries = 10, withinTimeRange = 10 seconds) {
-    case _: CoordinatedTransactionException => Resume
-    case _: IllegalStateException => Resume
-    case _: IllegalArgumentException => Stop
-    case _: Exception => Escalate
+  override def normally: Receive = {
+    case value: AccountBalance =>
+      sender ! new AccountBalance(accountNumber, balance.single.get)
   }
+
 }
