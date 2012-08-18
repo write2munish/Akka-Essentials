@@ -34,6 +34,8 @@ public class BankActor extends UntypedActor {
 
 			System.out.println("Account #" + account.getAccountNumber()
 					+ " , Balance " + account.getBalance());
+			
+			getSender().tell(account);
 		}
 
 	}

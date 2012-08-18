@@ -6,6 +6,8 @@ import static akka.actor.SupervisorStrategy.stop;
 import static akka.pattern.Patterns.ask;
 
 import org.akka.essentials.stm.transactor.example2.msg.AccountBalance;
+import org.akka.essentials.stm.transactor.example2.msg.AccountCredit;
+import org.akka.essentials.stm.transactor.example2.msg.AccountDebit;
 import org.akka.essentials.stm.transactor.example2.msg.TransferMsg;
 
 import akka.actor.ActorRef;
@@ -34,6 +36,11 @@ public class BankActor extends UntypedActor {
 
 			System.out.println("Account #" + account.getAccountNumber()
 					+ " , Balance " + account.getBalance());
+			getSender().tell(account);
+		}else if (message instanceof AccountDebit){
+			transfer.tell(message);
+		}else if (message instanceof AccountCredit){
+			transfer.tell(message);
 		}
 
 	}
