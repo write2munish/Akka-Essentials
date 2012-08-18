@@ -1,79 +1,60 @@
 package org.akka.essentials.stm.transactor.example2;
 
-import static akka.actor.SupervisorStrategy.escalate;
-import static akka.actor.SupervisorStrategy.resume;
-import static akka.actor.SupervisorStrategy.stop;
-import static akka.pattern.Patterns.ask;
+import org.akka.essentials.stm.transactor.example1.msg.AccountBalance;
+import org.akka.essentials.stm.transactor.example1.msg.AccountCredit;
+import org.akka.essentials.stm.transactor.example1.msg.AccountDebit;
 
-import org.akka.essentials.stm.transactor.example2.msg.AccountBalance;
-import org.akka.essentials.stm.transactor.example2.msg.AccountCredit;
-import org.akka.essentials.stm.transactor.example2.msg.AccountMsg;
+import scala.concurrent.stm.Ref;
+import scala.concurrent.stm.japi.STM;
+import akka.event.Logging;
+import akka.event.LoggingAdapter;
+import akka.transactor.UntypedTransactor;
 
-import akka.actor.ActorRef;
-import akka.actor.OneForOneStrategy;
-import akka.actor.Props;
-import akka.actor.SupervisorStrategy;
-import akka.actor.SupervisorStrategy.Directive;
-import akka.actor.UntypedActor;
-import akka.dispatch.Await;
-import akka.japi.Function;
-import akka.transactor.Coordinated;
-import akka.transactor.CoordinatedTransactionException;
-import akka.util.Duration;
+public class AccountActor extends UntypedTransactor {
 
-public class AccountActor extends UntypedActor {
+	LoggingAdapter log = Logging.getLogger(getContext().system(), this);
 
 	String accountNumber;
-	ActorRef balance = context().actorOf(new Props(BalanceTransactor.class),
-			"BalanceActor");
+	// Use the scala STM Ref for state variables that need to
+	// participate in transactions
+	Ref.View<Float> balance = STM.newRef(Float.parseFloat("0"));
 
-	public AccountActor(String accNo, Float bal) {
+	public AccountActor(String accNo, float bal) {
 		this.accountNumber = accNo;
-		balance.tell(new AccountCredit(bal));
+		balance.set(Float.valueOf(bal));
 	}
 
+	// default method to be overridden
 	@Override
-	public void onReceive(Object o) throws Exception {
-		if (o instanceof Coordinated) {
-			final Coordinated coordinated = (Coordinated) o;
-			final Object message = coordinated.getMessage();
-			coordinated.atomic(new Runnable() {
-				public void run() {
-					// pass the message to the untypedtransctor
-					balance.tell(coordinated.coordinate(message));
-				}
-			});
-		} else if (o instanceof AccountBalance) {
-			Float amtbalance = (Float) Await.result(
-					ask(balance, "BALANCE", 1000), Duration.parse("1 second"));
+	public void atomically(Object message) throws Exception {
+		if (message instanceof AccountDebit) {
+			AccountDebit accDebit = (AccountDebit) message;
+			// check for funds availability
+			if (balance.get() > accDebit.getAmount()) {
+				float bal = balance.get() - accDebit.getAmount();
+				balance.set(Float.valueOf(bal));
+			} else {
+				throw new IllegalStateException("Insufficient Balance");
+			}
+
+		} else if (message instanceof AccountCredit) {
+
+			AccountCredit accCredit = (AccountCredit) message;
+			float bal = balance.get() + accCredit.getAmount();
+			balance.set(Float.valueOf(bal));
+
+		}
+	}
+
+	// To completely bypass coordinated transactions override the normally
+	// method.
+	@Override
+	public boolean normally(Object message) {
+		if (message instanceof AccountBalance) {
 			// reply with the account balance
-			sender().tell(new AccountBalance(accountNumber, amtbalance));
-		} else if (o instanceof AccountMsg) {
-			balance.tell(o);
-		} else
-			unhandled(o);
+			sender().tell(new AccountBalance(accountNumber, balance.get()));
+			return true;
+		}
+		return false;
 	}
-
-	// catch the exceptions and apply the right strategy, in this case resume()
-	private static SupervisorStrategy strategy = new OneForOneStrategy(10,
-			Duration.parse("10 second"), new Function<Throwable, Directive>() {
-
-				public Directive apply(Throwable t) {
-					if (t instanceof CoordinatedTransactionException) {
-						return resume();
-					} else if (t instanceof IllegalStateException) {
-						return resume();
-					} else if (t instanceof IllegalArgumentException) {
-						return stop();
-					} else {
-						return escalate();
-					}
-				}
-			});
-
-	@Override
-	public SupervisorStrategy supervisorStrategy() {
-		return strategy;
-	}
-
 }

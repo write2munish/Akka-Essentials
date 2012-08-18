@@ -6,11 +6,10 @@ import static akka.actor.SupervisorStrategy.stop;
 
 import java.util.concurrent.TimeUnit;
 
-import org.akka.essentials.stm.transactor.example2.msg.AccountBalance;
-import org.akka.essentials.stm.transactor.example2.msg.AccountCredit;
-import org.akka.essentials.stm.transactor.example2.msg.AccountDebit;
-import org.akka.essentials.stm.transactor.example2.msg.AccountMsg;
-import org.akka.essentials.stm.transactor.example2.msg.TransferMsg;
+import org.akka.essentials.stm.transactor.example1.msg.AccountBalance;
+import org.akka.essentials.stm.transactor.example1.msg.AccountCredit;
+import org.akka.essentials.stm.transactor.example1.msg.AccountDebit;
+import org.akka.essentials.stm.transactor.example1.msg.TransferMsg;
 
 import akka.actor.ActorRef;
 import akka.actor.AllForOneStrategy;
@@ -19,6 +18,8 @@ import akka.actor.SupervisorStrategy;
 import akka.actor.SupervisorStrategy.Directive;
 import akka.actor.UntypedActor;
 import akka.actor.UntypedActorFactory;
+import akka.event.Logging;
+import akka.event.LoggingAdapter;
 import akka.japi.Function;
 import akka.transactor.Coordinated;
 import akka.transactor.CoordinatedTransactionException;
@@ -26,6 +27,8 @@ import akka.util.Duration;
 import akka.util.Timeout;
 
 public class TransferActor extends UntypedActor {
+	LoggingAdapter log = Logging.getLogger(getContext().system(), this);
+
 	String fromAccount = "XYZ";
 	String toAccount = "ABC";
 
@@ -49,18 +52,17 @@ public class TransferActor extends UntypedActor {
 			final TransferMsg transfer = (TransferMsg) message;
 			Timeout timeout = new Timeout(5, TimeUnit.SECONDS);
 			final Coordinated coordinated = new Coordinated(timeout);
+
 			coordinated.atomic(new Runnable() {
 				public void run() {
 					// credit amount - will always be successful
 					to.tell(coordinated.coordinate(new AccountCredit(transfer
 							.getAmtToBeTransferred())));
-					// debit amount - throws an exception if funds
-					// insufficient
+					// debit amount - throws an exception if funds insufficient
 					from.tell(coordinated.coordinate(new AccountDebit(transfer
 							.getAmtToBeTransferred())));
 				}
 			});
-
 		} else if (message instanceof AccountBalance) {
 
 			AccountBalance accBalance = (AccountBalance) message;
@@ -70,12 +72,6 @@ public class TransferActor extends UntypedActor {
 			}
 			if (accBalance.getAccountNumber().equals(toAccount)) {
 				to.tell(accBalance, sender());
-			}
-		} else if (message instanceof AccountMsg) {
-			if (message instanceof AccountDebit) {
-				from.tell(message);
-			} else if (message instanceof AccountCredit) {
-				from.tell(message);
 			}
 		}
 	}

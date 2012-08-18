@@ -5,10 +5,8 @@ import static akka.actor.SupervisorStrategy.resume;
 import static akka.actor.SupervisorStrategy.stop;
 import static akka.pattern.Patterns.ask;
 
-import org.akka.essentials.stm.transactor.example2.msg.AccountBalance;
-import org.akka.essentials.stm.transactor.example2.msg.AccountCredit;
-import org.akka.essentials.stm.transactor.example2.msg.AccountDebit;
-import org.akka.essentials.stm.transactor.example2.msg.TransferMsg;
+import org.akka.essentials.stm.transactor.example1.msg.AccountBalance;
+import org.akka.essentials.stm.transactor.example1.msg.TransferMsg;
 
 import akka.actor.ActorRef;
 import akka.actor.OneForOneStrategy;
@@ -36,11 +34,8 @@ public class BankActor extends UntypedActor {
 
 			System.out.println("Account #" + account.getAccountNumber()
 					+ " , Balance " + account.getBalance());
+			
 			getSender().tell(account);
-		}else if (message instanceof AccountDebit){
-			transfer.tell(message);
-		}else if (message instanceof AccountCredit){
-			transfer.tell(message);
 		}
 
 	}
@@ -53,7 +48,7 @@ public class BankActor extends UntypedActor {
 					if (t instanceof CoordinatedTransactionException) {
 						return resume();
 					} else if (t instanceof IllegalStateException) {
-						return resume();
+						return stop();
 					} else if (t instanceof IllegalArgumentException) {
 						return stop();
 					} else {
@@ -66,4 +61,5 @@ public class BankActor extends UntypedActor {
 	public SupervisorStrategy supervisorStrategy() {
 		return strategy;
 	}
+
 }

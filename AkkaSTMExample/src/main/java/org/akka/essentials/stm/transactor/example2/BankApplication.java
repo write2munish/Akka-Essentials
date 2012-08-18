@@ -1,7 +1,7 @@
 package org.akka.essentials.stm.transactor.example2;
 
-import org.akka.essentials.stm.transactor.example2.msg.AccountBalance;
-import org.akka.essentials.stm.transactor.example2.msg.TransferMsg;
+import org.akka.essentials.stm.transactor.example1.msg.AccountBalance;
+import org.akka.essentials.stm.transactor.example1.msg.TransferMsg;
 
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
