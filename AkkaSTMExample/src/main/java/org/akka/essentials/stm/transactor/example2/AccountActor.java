@@ -1,8 +1,8 @@
 package org.akka.essentials.stm.transactor.example2;
 
-import org.akka.essentials.stm.transactor.example1.msg.AccountBalance;
-import org.akka.essentials.stm.transactor.example1.msg.AccountCredit;
-import org.akka.essentials.stm.transactor.example1.msg.AccountDebit;
+import org.akka.essentials.stm.transactor.example2.msg.AccountBalance;
+import org.akka.essentials.stm.transactor.example2.msg.AccountCredit;
+import org.akka.essentials.stm.transactor.example2.msg.AccountDebit;
 
 import scala.concurrent.stm.Ref;
 import scala.concurrent.stm.japi.STM;

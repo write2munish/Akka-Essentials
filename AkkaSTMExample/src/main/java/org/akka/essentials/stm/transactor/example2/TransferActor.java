@@ -6,10 +6,11 @@ import static akka.actor.SupervisorStrategy.stop;
 
 import java.util.concurrent.TimeUnit;
 
-import org.akka.essentials.stm.transactor.example1.msg.AccountBalance;
-import org.akka.essentials.stm.transactor.example1.msg.AccountCredit;
-import org.akka.essentials.stm.transactor.example1.msg.AccountDebit;
-import org.akka.essentials.stm.transactor.example1.msg.TransferMsg;
+import org.akka.essentials.stm.transactor.example2.msg.AccountBalance;
+import org.akka.essentials.stm.transactor.example2.msg.AccountCredit;
+import org.akka.essentials.stm.transactor.example2.msg.AccountDebit;
+import org.akka.essentials.stm.transactor.example2.msg.AccountMsg;
+import org.akka.essentials.stm.transactor.example2.msg.TransferMsg;
 
 import akka.actor.ActorRef;
 import akka.actor.AllForOneStrategy;
@@ -73,6 +74,8 @@ public class TransferActor extends UntypedActor {
 			if (accBalance.getAccountNumber().equals(toAccount)) {
 				to.tell(accBalance, sender());
 			}
+		}else if(message instanceof AccountMsg){
+			from.tell(message);
 		}
 	}
 
