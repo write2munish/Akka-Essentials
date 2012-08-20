@@ -20,9 +20,9 @@ public class AccountActor extends UntypedActor {
 	//participate in transactions
 	Ref.View<Float> balance = STM.newRef(Float.parseFloat("0"));
 
-	public AccountActor(String accNo, float bal) {
+	public AccountActor(String accNo, Float bal) {
 		this.accountNumber = accNo;
-		balance.set(Float.valueOf(bal));
+		balance.set(bal);
 	}
 
 	@Override
@@ -37,7 +37,7 @@ public class AccountActor extends UntypedActor {
 						//check for funds availability
 						if (balance.get() > accDebit.getAmount()) {
 							float bal = balance.get() - accDebit.getAmount();
-							balance.set(Float.valueOf(bal));
+							balance.set(bal);
 						} else {
 							throw new IllegalStateException(
 									"Insufficient Balance");
@@ -50,7 +50,7 @@ public class AccountActor extends UntypedActor {
 					public void run() {
 						AccountCredit accCredit = (AccountCredit) message;
 						float bal = balance.get() + accCredit.getAmount();
-						balance.set(Float.valueOf(bal));
+						balance.set(bal);
 					}
 				});
 			}

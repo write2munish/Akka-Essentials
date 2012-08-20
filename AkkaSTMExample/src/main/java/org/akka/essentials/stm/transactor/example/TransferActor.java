@@ -44,15 +44,14 @@ public class TransferActor extends UntypedActor {
 			return new AccountActor(toAccount, Float.parseFloat("1000"));
 		}
 	}), toAccount);
-
+	Timeout timeout = new Timeout(5, TimeUnit.SECONDS);
+	
 	@Override
 	public void onReceive(Object message) throws Exception {
 
 		if (message instanceof TransferMsg) {
-			final TransferMsg transfer = (TransferMsg) message;
-			Timeout timeout = new Timeout(5, TimeUnit.SECONDS);
+			final TransferMsg transfer = (TransferMsg) message;		
 			final Coordinated coordinated = new Coordinated(timeout);
-
 			coordinated.atomic(new Runnable() {
 				public void run() {
 					// credit amount - will always be successful

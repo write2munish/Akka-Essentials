@@ -40,7 +40,6 @@ public class BankActor extends UntypedActor {
 		}else if(message instanceof AccountMsg){
 			transfer.tell(message);
 		}
-
 	}
 
 	// catch the exceptions and apply the right strategy, in this case resume()
