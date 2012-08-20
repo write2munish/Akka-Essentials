@@ -1,28 +1,29 @@
 package org.akka.essentials.unittest.example
 import akka.actor.Actor
 
-case class Tick
-case class Tock
+case class Tick(message: String)
+case class Tock(message: String)
 
 class TickTock extends Actor {
 
-  var state = false;
+  var state = false
 
   def receive: Receive = {
-    case message: Tick => tick_this(message)
-    case message: Tock => tock_this(message);
+    case message: Tick => tick(message)
+    case message: Tock => tock(message)
+    case _ => throw new IllegalArgumentException("boom!")
   }
 
-   def tock_this(message: Tock) = {
+  def tock(message: Tock) = {
     // do some processing here
     if (state == false)
-      state = true;
+      state = true
     else
-      state = false;
+      state = false
   }
 
-  def tick_this(message: Tick) = {
+  def tick(message: Tick) = {
     // do some processing here
-    sender.tell("processed the tick message");
+    sender.tell("processed the tick message")
   }
 }

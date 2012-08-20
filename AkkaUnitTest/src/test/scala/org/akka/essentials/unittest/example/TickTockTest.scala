@@ -1,6 +1,5 @@
 package org.akka.essentials.unittest.example
 
-import org.akka.essentials.unittest.example.TickTock
 import org.junit.Assert
 import com.typesafe.config.ConfigFactory
 import akka.actor.ActorSystem
@@ -30,20 +29,29 @@ class TickTockTest extends TestCase {
     val actor: TickTock = actorRef.underlyingActor
     // access the methods the actor object and directly pass arguments and
     // test
-    actor.tock_this(new Tock)
-    Assert.assertTrue(actor.state);
-
-    actor.tock_this(new Tock);
-    Assert.assertFalse(actor.state);
+    actor.tock(new Tock("some message"))
+    Assert.assertTrue(actor.state)
   }
 
   def testTwo() = {
     val actorRef = TestActorRef[TickTock]
 
     implicit val timeout = Timeout(5 seconds)
-    val future = (actorRef ? new Tick).mapTo[String]
+    val future = (actorRef ? new Tick("msg")).mapTo[String]
     val result = Await.result(future, timeout.duration)
 
     Assert.assertEquals("processed the tick message", result)
+  }
+
+  def testThree() = {
+    val actorRef = TestActorRef[TickTock]
+
+    try {
+      actorRef.receive("do something")
+      //should not reach here
+      Assert.fail()
+    } catch {
+      case e: IllegalArgumentException => Assert.assertEquals(e.getMessage(), "boom!")
+    }
   }
 }

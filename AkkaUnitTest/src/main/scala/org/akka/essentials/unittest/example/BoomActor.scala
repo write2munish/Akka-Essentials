@@ -5,6 +5,5 @@ class BoomActor extends Actor {
   def receive: Receive = {
     case message: String => throw new IllegalArgumentException("boom!")
     case message: Integer => throw new NullPointerException("caput")
-    case _ => unhandled()
   }
 }

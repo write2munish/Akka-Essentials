@@ -17,14 +17,15 @@ class SupervisorActor() extends Actor {
 
   def receive: Receive = {
     case message: Props =>
-      childActor = context.actorOf(message, name = "childActor");
+      childActor = context.actorOf(message, name = "childActor")
       sender ! childActor
-    case message => childActor.tell(message, sender)
+    case message => 
+      childActor.tell(message, sender)
   }
 
   override val supervisorStrategy = OneForOneStrategy(maxNrOfRetries = 10, withinTimeRange = 1 minute) {
-    case _: NullPointerException ⇒ Resume
-    case _: IllegalArgumentException ⇒ Stop
-    case _: Exception ⇒ Escalate
+    case _: NullPointerException => Resume
+    case _: IllegalArgumentException => Stop
+    case _: Exception => Escalate
   }
 }

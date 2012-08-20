@@ -91,13 +91,13 @@ public class ExampleUnitTest extends TestKit {
 		for (int i = 1; i < randomTail; i++)
 			tailList.add(i);
 
-		TestActorRef<SequencingActor> sequencingActorRef = TestActorRef.apply(
-				new Props(new UntypedActorFactory() {
+		ActorRef sequencingActorRef = _system.actorOf(new Props(
+				new UntypedActorFactory() {
 					public UntypedActor create() {
 						return new SequencingActor(testActor(), headList,
 								tailList);
 					}
-				}), _system);
+				}));
 
 		// pass the reference to implicit sender testActor() otherwise
 		// message end up in dead mailbox
@@ -110,16 +110,17 @@ public class ExampleUnitTest extends TestKit {
 		for (Integer value : tailList) {
 			expectMsgClass(Integer.class);
 		}
+		expectNoMsg();
 	}
 
 	@Test
 	public void testFilteringActor() {
-		TestActorRef<FilteringActor> filteringActorRef = TestActorRef.apply(
-				new Props(new UntypedActorFactory() {
+		ActorRef filteringActorRef = _system.actorOf(new Props(
+				new UntypedActorFactory() {
 					public UntypedActor create() {
 						return new FilteringActor(testActor());
 					}
-				}), _system);
+				}));
 		// pass the reference to implicit sender testActor() otherwise
 		// message end up in dead mailbox
 		// first test
@@ -136,8 +137,8 @@ public class ExampleUnitTest extends TestKit {
 	@Test
 	public void testSupervisorStrategy1() throws Exception {
 
-		final TestActorRef<SupervisorActor> supervisorActorRef1 = TestActorRef
-				.apply(new Props(SupervisorActor.class), "supervisor1", _system);
+		ActorRef supervisorActorRef1 = _system.actorOf(new Props(
+				SupervisorActor.class), "supervisor1");
 
 		Duration timeout = Duration.parse("5 second");
 		// register the BoomActor with the Supervisor
@@ -148,15 +149,14 @@ public class ExampleUnitTest extends TestKit {
 		child.tell(123);
 
 		Assert.assertFalse(child.isTerminated());
-
 	}
 
 	@Test
 	public void testSupervisorStrategy2() throws Exception {
 
-		TestActorRef<SupervisorActor> supervisorActorRef2 = TestActorRef.apply(
-				new Props(SupervisorActor.class), "supervisor2", _system);
-
+		ActorRef supervisorActorRef2 = _system.actorOf(new Props(
+				SupervisorActor.class), "supervisor2");
+		
 		final TestProbe probe = new TestProbe(_system);
 		// register the BoomActor with the Supervisor
 		final ActorRef child = (ActorRef) Await.result(
@@ -175,7 +175,7 @@ public class ExampleUnitTest extends TestKit {
 				new Props(BoomActor.class), _system);
 		try {
 			child.receive("do something");
-			//should not reach here
+			// should not reach here
 			Assert.assertTrue(false);
 		} catch (IllegalArgumentException e) {
 			Assert.assertEquals(e.getMessage(), "boom!");

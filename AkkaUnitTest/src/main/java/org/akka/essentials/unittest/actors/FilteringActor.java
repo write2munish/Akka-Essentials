@@ -4,7 +4,6 @@ import akka.actor.ActorRef;
 import akka.actor.UntypedActor;
 
 public class FilteringActor extends UntypedActor {
-
 	ActorRef next;
 
 	public FilteringActor(ActorRef next) {
@@ -15,8 +14,5 @@ public class FilteringActor extends UntypedActor {
 	public void onReceive(Object message) throws Exception {
 		if (message instanceof String)
 			next.tell(message);
-		else
-			unhandled(message);
 	}
-
 }
