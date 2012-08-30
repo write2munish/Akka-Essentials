@@ -9,7 +9,7 @@ public class ChildActor extends UntypedActor {
 	LoggingAdapter log = Logging.getLogger(getContext().system(), this);
 
 	public void preStart() {
-		log.info("Child Actor Started >" + self().path());
+		log.info("Child Actor Started > {}", self().path());
 	}
 
 	@Override
@@ -26,7 +26,7 @@ public class ChildActor extends UntypedActor {
 	}
 
 	public void postStop() {
-		log.info("Child Actor Stopped >" + self().path());
+		log.info("Child Actor Stopped > {}", self().path());
 	}
 
 }

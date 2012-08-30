@@ -1,6 +1,9 @@
 package org.akka.essentials.calculator.example3;
 
+import static akka.actor.SupervisorStrategy.escalate;
 import static akka.actor.SupervisorStrategy.restart;
+import static akka.actor.SupervisorStrategy.resume;
+import static akka.actor.SupervisorStrategy.stop;
 
 import org.akka.essentials.calculator.CalculatorInt;
 
@@ -27,55 +30,43 @@ public class SupervisorActor implements Receiver, CalculatorInt, PreStart,
 
 	LoggingAdapter log = Logging.getLogger(TypedActor.context().system(), this);
 	Integer counter = 0;
-	
-	//create a child actor under the Typed Actor context
+
+	// create a child actor under the Typed Actor context
 	ActorRef childActor = TypedActor.context().actorOf(
 			new Props(ChildActor.class), "childActor");
 
-	/**
-	 * Non blocking request response
-	 */
+	// Non blocking request response
 	public Future<Integer> add(Integer first, Integer second) {
 		return Futures.successful(first + second, TypedActor.dispatcher());
 	}
 
-	/**
-	 * Non blocking request response
-	 */
+	// Non blocking request response
 	public Future<Integer> subtract(Integer first, Integer second) {
 		return Futures.successful(first - second, TypedActor.dispatcher());
 
 	}
 
-	/**
-	 * fire and forget
-	 */
+	// fire and forget
 	public void incrementCount() {
 		counter++;
 	}
 
-	/**
-	 * Blocking request response
-	 */
+	// Blocking request response
 	public Option<Integer> incrementAndReturn() {
 		return Option.some(++counter);
 	}
 
-	/**
-	 * Allows to tap into the Actor PreStart hook
-	 */
+	// Allows to tap into the Actor PreStart hook
 	public void preStart() {
 		log.info("Actor Started !");
 	}
 
 	public void onReceive(Object msg, ActorRef actor) {
-		log.info("Received Message -> " + msg);
-		childActor.tell(msg,actor);
+		log.info("Received Message -> {}", msg);
+		childActor.tell(msg, actor);
 	}
 
-	/**
-	 * Allows to tap into the Actor PostStop hook
-	 */
+	// Allows to tap into the Actor PostStop hook
 	public void postStop() {
 		log.info("Actor Stopped ! ");
 	}
@@ -84,11 +75,18 @@ public class SupervisorActor implements Receiver, CalculatorInt, PreStart,
 		return strategy;
 	}
 
-	private static SupervisorStrategy strategy = new OneForOneStrategy(-1,
-			Duration.Inf(), new Function<Throwable, Directive>() {
+	private static SupervisorStrategy strategy = new OneForOneStrategy(10,
+			Duration.parse("10 second"), new Function<Throwable, Directive>() {
 				public Directive apply(Throwable t) {
-					return restart();
+					if (t instanceof ArithmeticException) {
+						return resume();
+					} else if (t instanceof IllegalArgumentException) {
+						return restart();
+					} else if (t instanceof NullPointerException) {
+						return stop();
+					} else {
+						return escalate();
+					}
 				}
 			});
-
 }

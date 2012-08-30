@@ -17,10 +17,6 @@ import com.typesafe.config.ConfigFactory;
 
 public class CalculatorActorSytem {
 
-	/**
-	 * @param args
-	 * @throws Exception
-	 */
 	public static void main(String[] args) throws Exception {
 		ActorSystem _system = ActorSystem.create("TypedActorsExample",
 				ConfigFactory.load().getConfig("TypedActorExample"));
