@@ -7,7 +7,8 @@ import akka.actor.AllForOneStrategy
 import akka.actor.Props
 import akka.transactor.Coordinated
 import akka.transactor.CoordinatedTransactionException
-import akka.util.duration._
+import scala.concurrent.Await
+import scala.concurrent.duration._
 import akka.util.Timeout
 
 class TransferActor extends Actor {

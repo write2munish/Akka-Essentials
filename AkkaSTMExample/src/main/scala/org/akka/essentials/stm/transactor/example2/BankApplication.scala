@@ -1,10 +1,12 @@
 package org.akka.essentials.stm.transactor.example2
+
 import java.lang.Float
 
-import akka.actor.actorRef2Scala
+import scala.concurrent.duration.DurationInt
+
 import akka.actor.ActorSystem
 import akka.actor.Props
-import akka.util.duration.intToDurationInt
+import akka.actor.actorRef2Scala
 import akka.util.Timeout
 
 case class AccountBalance(accountNumber: String, accountBalance: Float)

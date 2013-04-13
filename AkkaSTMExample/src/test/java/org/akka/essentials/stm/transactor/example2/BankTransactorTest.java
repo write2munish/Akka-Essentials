@@ -2,16 +2,19 @@ package org.akka.essentials.stm.transactor.example2;
 
 import static akka.pattern.Patterns.ask;
 
-import org.akka.essentials.stm.transactor.example2.msg.*;
+import org.akka.essentials.stm.transactor.example2.msg.AccountBalance;
+import org.akka.essentials.stm.transactor.example2.msg.AccountCredit;
+import org.akka.essentials.stm.transactor.example2.msg.AccountDebit;
+import org.akka.essentials.stm.transactor.example2.msg.TransferMsg;
 import org.junit.Assert;
 import org.junit.Test;
 
+import scala.concurrent.Await;
+import scala.concurrent.duration.Duration;
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
 import akka.actor.Props;
-import akka.dispatch.Await;
 import akka.testkit.TestKit;
-import akka.util.Duration;
 
 public class BankTransactorTest extends TestKit {
 	static ActorSystem _system = ActorSystem.create("STM-Example");
@@ -27,14 +30,14 @@ public class BankTransactorTest extends TestKit {
 
 		AccountBalance balance = (AccountBalance) Await.result(
 				ask(bank, new AccountBalance("XYZ"), 5000),
-				Duration.parse("5 second"));
+				Duration.create("5 second"));
 
 		Assert.assertEquals(Float.parseFloat("3223"), balance.getBalance(),
 				Float.parseFloat("0"));
 
 		balance = (AccountBalance) Await.result(
 				ask(bank, new AccountBalance("ABC"), 5000),
-				Duration.parse("5 second"));
+				Duration.create("5 second"));
 
 		Assert.assertEquals(Float.parseFloat("2777"), balance.getBalance(),
 				Float.parseFloat("0"));
@@ -52,14 +55,14 @@ public class BankTransactorTest extends TestKit {
 
 		AccountBalance balance = (AccountBalance) Await.result(
 				ask(bank, new AccountBalance("XYZ"), 5000),
-				Duration.parse("5 second"));
+				Duration.create("5 second"));
 
 		Assert.assertEquals(Float.parseFloat("5000"), balance.getBalance(),
 				Float.parseFloat("0"));
 
 		balance = (AccountBalance) Await.result(
 				ask(bank, new AccountBalance("ABC"), 5000),
-				Duration.parse("5 second"));
+				Duration.create("5 second"));
 
 		Assert.assertEquals(Float.parseFloat("1000"), balance.getBalance(),
 				Float.parseFloat("0"));
@@ -83,7 +86,7 @@ public class BankTransactorTest extends TestKit {
 
 		AccountBalance balance = (AccountBalance) Await.result(
 				ask(bank, new AccountBalance("XYZ"), 5000),
-				Duration.parse("5 second"));
+				Duration.create("5 second"));
 
 		Assert.assertEquals(Float.parseFloat("2000"), balance.getBalance(),
 				Float.parseFloat("0"));

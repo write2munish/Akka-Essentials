@@ -12,6 +12,7 @@ import org.akka.essentials.stm.transactor.example2.msg.AccountDebit;
 import org.akka.essentials.stm.transactor.example2.msg.AccountMsg;
 import org.akka.essentials.stm.transactor.example2.msg.TransferMsg;
 
+import scala.concurrent.duration.Duration;
 import akka.actor.ActorRef;
 import akka.actor.AllForOneStrategy;
 import akka.actor.Props;
@@ -24,7 +25,6 @@ import akka.event.LoggingAdapter;
 import akka.japi.Function;
 import akka.transactor.Coordinated;
 import akka.transactor.CoordinatedTransactionException;
-import akka.util.Duration;
 import akka.util.Timeout;
 
 public class TransferActor extends UntypedActor {
@@ -81,7 +81,7 @@ public class TransferActor extends UntypedActor {
 
 	// catch the exceptions and apply the right strategy, in this case resume()
 	private static SupervisorStrategy strategy = new AllForOneStrategy(10,
-			Duration.parse("10 second"), new Function<Throwable, Directive>() {
+			Duration.create("10 second"), new Function<Throwable, Directive>() {
 
 				public Directive apply(Throwable t) {
 					if (t instanceof CoordinatedTransactionException) {

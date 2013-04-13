@@ -1,10 +1,9 @@
 package org.akka.essentials.stm.pingpong.example3
 
-import scala.concurrent.stm.Ref
+import scala.concurrent.duration.DurationInt
+
 import akka.agent.Agent
 import akka.util.Timeout
-import akka.util.duration._
-import akka.dispatch.Await
 
 class PingPong(whoseTurn: Agent[String]) {
   implicit val timeout = Timeout(5 seconds)

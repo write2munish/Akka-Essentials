@@ -7,12 +7,12 @@ import org.akka.essentials.stm.transactor.example.msg.TransferMsg;
 import org.junit.Assert;
 import org.junit.Test;
 
+import scala.concurrent.Await;
+import scala.concurrent.duration.Duration;
 import akka.actor.ActorSystem;
 import akka.actor.Props;
-import akka.dispatch.Await;
 import akka.testkit.TestActorRef;
 import akka.testkit.TestKit;
-import akka.util.Duration;
 
 public class BankTest extends TestKit {
 	static ActorSystem _system = ActorSystem.create("STM-Example");
@@ -30,14 +30,14 @@ public class BankTest extends TestKit {
 
 		AccountBalance balance = (AccountBalance) Await.result(
 				ask(bank, new AccountBalance("XYZ"), 5000),
-				Duration.parse("5 second"));
+				Duration.create("5 second"));
 
 		Assert.assertEquals(Float.parseFloat("3223"), balance.getBalance(),
 				Float.parseFloat("0"));
 
 		balance = (AccountBalance) Await.result(
 				ask(bank, new AccountBalance("ABC"), 5000),
-				Duration.parse("5 second"));
+				Duration.create("5 second"));
 
 		Assert.assertEquals(Float.parseFloat("2777"), balance.getBalance(),
 				Float.parseFloat("0"));
@@ -52,14 +52,14 @@ public class BankTest extends TestKit {
 
 		AccountBalance balance = (AccountBalance) Await.result(
 				ask(bank, new AccountBalance("XYZ"), 5000),
-				Duration.parse("5 second"));
+				Duration.create("5 second"));
 
 		Assert.assertEquals(Float.parseFloat("3500"), balance.getBalance(),
 				Float.parseFloat("0"));
 
 		balance = (AccountBalance) Await.result(
 				ask(bank, new AccountBalance("ABC"), 5000),
-				Duration.parse("5 second"));
+				Duration.create("5 second"));
 
 		Assert.assertEquals(Float.parseFloat("2500"), balance.getBalance(),
 				Float.parseFloat("0"));
@@ -70,14 +70,14 @@ public class BankTest extends TestKit {
 		
 		balance = (AccountBalance) Await.result(
 				ask(bank, new AccountBalance("XYZ"), 5000),
-				Duration.parse("5 second"));
+				Duration.create("5 second"));
 
 		Assert.assertEquals(Float.parseFloat("3500"), balance.getBalance(),
 				Float.parseFloat("0"));
 
 		balance = (AccountBalance) Await.result(
 				ask(bank, new AccountBalance("ABC"), 5000),
-				Duration.parse("5 second"));
+				Duration.create("5 second"));
 
 		Assert.assertEquals(Float.parseFloat("2500"), balance.getBalance(),
 				Float.parseFloat("0"));

@@ -1,12 +1,13 @@
 package org.akka.essentials.stm.transactor.example
+
+import java.lang.Float
+
+import scala.concurrent.duration._
+
 import akka.actor.ActorSystem
 import akka.actor.Props
-import akka.dispatch.Future
 import akka.pattern.ask
 import akka.util.Timeout
-import akka.util.duration._
-import akka.dispatch.Await
-import java.lang.Float
 
 case class AccountBalance(accountNumber: String, accountBalance: Float)
 case class AccountCredit(amount: Float)

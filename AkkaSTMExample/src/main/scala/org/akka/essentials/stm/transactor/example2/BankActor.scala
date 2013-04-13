@@ -1,15 +1,16 @@
 package org.akka.essentials.stm.transactor.example2
-import akka.actor.SupervisorStrategy._
+
+import scala.concurrent.Await
+import scala.concurrent.duration._
+
 import akka.actor.Actor
+import akka.actor.ActorLogging
 import akka.actor.OneForOneStrategy
 import akka.actor.Props
-import akka.transactor.Coordinated
-import akka.transactor.CoordinatedTransactionException
-import akka.util.duration._
-import akka.util.Timeout
-import akka.dispatch.Await
-import akka.actor.ActorLogging
+import akka.actor.SupervisorStrategy._
 import akka.pattern.ask
+import akka.transactor.CoordinatedTransactionException
+import akka.util.Timeout
 
 class BankActor extends Actor with ActorLogging {
 
