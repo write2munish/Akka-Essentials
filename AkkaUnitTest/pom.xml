@@ -23,18 +23,18 @@
 		</dependency>
 		<dependency>
 			<groupId>com.typesafe.akka</groupId>
-			<artifactId>akka-kernel_2.10</artifactId>
-			<version>2.1.2</version>
+			<artifactId>akka-kernel</artifactId>
+			<version>2.0.1</version>
 		</dependency>
 		<dependency>
 			<groupId>com.typesafe.akka</groupId>
-			<artifactId>akka-actor_2.10</artifactId>
-			<version>2.1.2</version>
+			<artifactId>akka-actor</artifactId>
+			<version>2.0.1</version>
 		</dependency>
 		<dependency>
 			<groupId>com.typesafe.akka</groupId>
-			<artifactId>akka-testkit_2.10</artifactId>
-			<version>2.1.2</version>
+			<artifactId>akka-testkit</artifactId>
+			<version>2.0.1</version>
 		</dependency>
 	</dependencies>
 	<repositories>

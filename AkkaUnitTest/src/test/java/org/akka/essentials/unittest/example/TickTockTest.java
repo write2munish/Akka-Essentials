@@ -8,11 +8,11 @@ import org.akka.essentials.unittest.actors.TickTock.Tick;
 import org.akka.essentials.unittest.actors.TickTock.Tock;
 import org.junit.Test;
 
-import scala.concurrent.Await;
-import scala.concurrent.duration.Duration;
 import akka.actor.ActorSystem;
 import akka.actor.Props;
+import akka.dispatch.Await;
 import akka.testkit.TestActorRef;
+import akka.util.Duration;
 
 import com.typesafe.config.ConfigFactory;
 
@@ -40,7 +40,7 @@ public class TickTockTest {
 				TickTock.class), _system);
 
 		String result = (String) Await.result(ask(actorRef, new Tick("msg"), 5000),
-				Duration.create("5 second"));
+				Duration.parse("5 second"));
 
 		Assert.assertEquals("processed the tick message", result);
 	}

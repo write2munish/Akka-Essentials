@@ -18,19 +18,19 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import scala.concurrent.Await;
-import scala.concurrent.duration.Duration;
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
 import akka.actor.Props;
 import akka.actor.Terminated;
 import akka.actor.UntypedActor;
 import akka.actor.UntypedActorFactory;
+import akka.dispatch.Await;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
 import akka.testkit.TestActorRef;
 import akka.testkit.TestKit;
 import akka.testkit.TestProbe;
+import akka.util.Duration;
 
 import com.typesafe.config.ConfigFactory;
 
@@ -140,7 +140,7 @@ public class ExampleUnitTest extends TestKit {
 		ActorRef supervisorActorRef1 = _system.actorOf(new Props(
 				SupervisorActor.class), "supervisor1");
 
-		Duration timeout = Duration.create("5 second");
+		Duration timeout = Duration.parse("5 second");
 		// register the BoomActor with the Supervisor
 		final ActorRef child = (ActorRef) Await.result(
 				ask(supervisorActorRef1, new Props(BoomActor.class), 5000),
@@ -161,11 +161,11 @@ public class ExampleUnitTest extends TestKit {
 		// register the BoomActor with the Supervisor
 		final ActorRef child = (ActorRef) Await.result(
 				ask(supervisorActorRef2, new Props(BoomActor.class), 5000),
-				Duration.create("5 second"));
+				Duration.parse("5 second"));
 		probe.watch(child);
 		// second check
 		child.tell("do something");
-		probe.expectMsgClass(Terminated.class);
+		probe.expectMsg(new Terminated(child));
 
 	}
 
