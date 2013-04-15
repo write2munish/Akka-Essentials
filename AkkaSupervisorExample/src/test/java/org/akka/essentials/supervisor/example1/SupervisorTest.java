@@ -3,19 +3,18 @@ package org.akka.essentials.supervisor.example1;
 import java.util.concurrent.TimeUnit;
 
 import org.akka.essentials.supervisor.example1.MyActorSystem.Result;
-import org.akka.essentials.supervisor.example1.SupervisorActor;
 import org.junit.Test;
 
+import scala.concurrent.Await;
+import scala.concurrent.duration.Duration;
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
 import akka.actor.Props;
 import akka.actor.Terminated;
-import akka.dispatch.Await;
 import akka.pattern.Patterns;
 import akka.testkit.TestActorRef;
 import akka.testkit.TestKit;
 import akka.testkit.TestProbe;
-import akka.util.Duration;
 
 public class SupervisorTest extends TestKit {
 	static ActorSystem _system = ActorSystem.create("faultTolerance");
@@ -39,11 +38,11 @@ public class SupervisorTest extends TestKit {
 
 	@Test
 	public void resumeTest() throws Exception {
-		TestActorRef<SupervisorActor> supervisor = TestActorRef.apply(new Props(
-				SupervisorActor.class), _system);
-		
+		TestActorRef<SupervisorActor> supervisor = TestActorRef.apply(
+				new Props(SupervisorActor.class), _system);
+
 		supervisor.tell(Integer.valueOf(-8));
-		
+
 		Integer result = (Integer) Await.result(
 				Patterns.ask(supervisor, new Result(), 5000),
 				Duration.create(5000, TimeUnit.MILLISECONDS));
@@ -71,6 +70,6 @@ public class SupervisorTest extends TestKit {
 
 		supervisor.tell(String.valueOf("Do Something"));
 
-		probe.expectMsg(new Terminated(workerActor));
+		probe.expectMsgClass(Terminated.class);
 	}
 }

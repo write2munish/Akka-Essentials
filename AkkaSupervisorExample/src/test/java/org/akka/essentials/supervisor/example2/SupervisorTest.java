@@ -3,21 +3,21 @@ package org.akka.essentials.supervisor.example2;
 import java.util.concurrent.TimeUnit;
 
 import org.akka.essentials.supervisor.example2.MyActorSystem2.Result;
-import org.akka.essentials.supervisor.example2.SupervisorActor2;
 import org.junit.Test;
 
-import com.typesafe.config.ConfigFactory;
-
+import scala.concurrent.Await;
+import scala.concurrent.duration.Duration;
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
 import akka.actor.Props;
 import akka.actor.Terminated;
-import akka.dispatch.Await;
 import akka.pattern.Patterns;
 import akka.testkit.TestActorRef;
 import akka.testkit.TestKit;
 import akka.testkit.TestProbe;
-import akka.util.Duration;
+
+import com.typesafe.config.ConfigFactory;
+
 
 public class SupervisorTest extends TestKit {
 	static ActorSystem _system = ActorSystem.create("faultTolerance", ConfigFactory
@@ -75,7 +75,7 @@ public class SupervisorTest extends TestKit {
 
 		supervisor.tell(String.valueOf("Do Something"));
 
-		probe1.expectMsg(new Terminated(workerActor1));
-		probe2.expectMsg(new Terminated(workerActor2));
+		probe1.expectMsgClass(Terminated.class);
+		probe2.expectMsgClass(Terminated.class);
 	}
 }

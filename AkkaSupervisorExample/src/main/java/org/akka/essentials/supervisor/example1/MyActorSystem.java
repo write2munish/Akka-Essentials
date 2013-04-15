@@ -2,14 +2,15 @@ package org.akka.essentials.supervisor.example1;
 
 import java.util.concurrent.TimeUnit;
 
+import scala.concurrent.Await;
+import scala.concurrent.duration.Duration;
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
 import akka.actor.Props;
-import akka.dispatch.Await;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
 import akka.pattern.Patterns;
-import akka.util.Duration;
+
 
 public class MyActorSystem {
 

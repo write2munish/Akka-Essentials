@@ -7,6 +7,7 @@ import static akka.actor.SupervisorStrategy.stop;
 
 import org.akka.essentials.supervisor.example2.MyActorSystem2.Result;
 
+import scala.concurrent.duration.Duration;
 import akka.actor.ActorRef;
 import akka.actor.AllForOneStrategy;
 import akka.actor.Props;
@@ -14,7 +15,7 @@ import akka.actor.SupervisorStrategy;
 import akka.actor.SupervisorStrategy.Directive;
 import akka.actor.UntypedActor;
 import akka.japi.Function;
-import akka.util.Duration;
+
 
 public class SupervisorActor2 extends UntypedActor {
 
@@ -29,7 +30,7 @@ public class SupervisorActor2 extends UntypedActor {
 	}
 
 	private static SupervisorStrategy strategy = new AllForOneStrategy(10,
-			Duration.parse("10 second"), new Function<Throwable, Directive>() {
+			Duration.create("10 second"), new Function<Throwable, Directive>() {
 				public Directive apply(Throwable t) {
 					if (t instanceof ArithmeticException) {
 						return resume();
