@@ -16,7 +16,7 @@ import akka.actor.Props;
 import akka.actor.UntypedActor;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
-import akka.routing.RemoteRouterConfig;
+import akka.remote.routing.RemoteRouterConfig;
 import akka.routing.RoundRobinRouter;
 
 public class JobControllerActor extends UntypedActor {

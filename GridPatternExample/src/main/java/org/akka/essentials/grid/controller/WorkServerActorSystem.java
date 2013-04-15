@@ -2,8 +2,8 @@ package org.akka.essentials.grid.controller;
 
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
-import akka.actor.Actors;
 import akka.actor.Address;
+import akka.actor.PoisonPill;
 import akka.actor.Props;
 import akka.actor.UntypedActor;
 import akka.actor.UntypedActorFactory;
@@ -112,7 +112,7 @@ public class WorkServerActorSystem implements Bootable {
 						return 0; // Worker Registration messages should be
 									// treated
 									// with highest priority
-					else if (message.equals(Actors.poisonPill()))
+					else if (message.equals(PoisonPill.getInstance()))
 						return 3; // PoisonPill when no other left
 					else
 						return 1; // By default they go with medium priority

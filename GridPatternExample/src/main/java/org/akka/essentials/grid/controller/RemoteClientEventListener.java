@@ -7,7 +7,6 @@ import akka.actor.UntypedActor;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
 import akka.remote.RemoteClientError;
-import akka.remote.RemoteClientWriteFailed;
 
 public class RemoteClientEventListener extends UntypedActor {
 	private LoggingAdapter log = Logging.getLogger(getContext().system(), this);
@@ -22,12 +21,12 @@ public class RemoteClientEventListener extends UntypedActor {
 			jobScheduler.tell(new StopWorker(event.getRemoteAddress()
 					.toString()));
 			log.info("Cause of the event was {}", event.getCause());
-		} else if (message instanceof RemoteClientWriteFailed) {
-			RemoteClientWriteFailed event = (RemoteClientWriteFailed) message;
-			log.info("Received remote client write fail event from address "
-					+ event.getRemoteAddress());
-			jobScheduler.tell(new StopWorker(event.getRemoteAddress()
-					.toString()));
+//		} else if (message instanceof RemoteClientWriteFailed) {
+//			RemoteClientWriteFailed event = (RemoteClientWriteFailed) message;
+//			log.info("Received remote client write fail event from address "
+//					+ event.getRemoteAddress());
+//			jobScheduler.tell(new StopWorker(event.getRemoteAddress()
+//					.toString()));
 		}
 	}
 

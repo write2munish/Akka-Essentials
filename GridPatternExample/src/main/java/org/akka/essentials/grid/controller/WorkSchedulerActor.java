@@ -2,10 +2,10 @@ package org.akka.essentials.grid.controller;
 
 import java.util.concurrent.TimeUnit;
 
+import scala.concurrent.duration.Duration;
 import akka.actor.UntypedActor;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
-import akka.util.Duration;
 
 public class WorkSchedulerActor extends UntypedActor {
 
@@ -21,14 +21,14 @@ public class WorkSchedulerActor extends UntypedActor {
 					.scheduleOnce(
 							Duration.create(((Integer) message).intValue(),
 									TimeUnit.SECONDS), getContext().sender(),
-							"SendWork");
+							"SendWork",getContext().dispatcher());
 		} else if (message instanceof String) {
 			log.info("Recieved work sending request");
 			getContext()
 					.system()
 					.scheduler()
 					.scheduleOnce(Duration.create(1000, TimeUnit.MILLISECONDS),
-							getContext().sender(), "SendWork");
+							getContext().sender(), "SendWork",getContext().dispatcher());
 		}
 	}
 
