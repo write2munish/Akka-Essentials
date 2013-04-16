@@ -4,8 +4,9 @@ import akka.actor.Props
 import akka.pattern.ask
 import akka.pattern.pipe
 import akka.util.Timeout
-import akka.util.duration._
-import akka.dispatch.Future
+import scala.concurrent.Future
+import java.util.concurrent.TimeUnit
+import scala.concurrent.duration._
 
 class ProcessOrderActor extends Actor {
 
