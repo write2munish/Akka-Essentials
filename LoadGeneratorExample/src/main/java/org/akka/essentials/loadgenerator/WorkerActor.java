@@ -4,7 +4,7 @@ import java.util.concurrent.TimeUnit;
 
 import akka.actor.ActorRef;
 import akka.actor.UntypedActor;
-import akka.util.Duration;
+import scala.concurrent.duration.Duration;
 
 public class WorkerActor extends UntypedActor {
 
@@ -17,7 +17,7 @@ public class WorkerActor extends UntypedActor {
 				.system()
 				.scheduler()
 				.scheduleOnce(Duration.create(1000, TimeUnit.MILLISECONDS),
-						jobController, "Done");
+						jobController, "Done",getContext().dispatcher());
 	}
 
 	public WorkerActor(ActorRef inJobController) {

@@ -5,11 +5,10 @@ import akka.actor.ActorSystem;
 import akka.actor.Props;
 import akka.actor.UntypedActor;
 import akka.actor.UntypedActorFactory;
-import akka.kernel.Bootable;
 import akka.routing.RoundRobinRouter;
 
 
-public class ApplicationManagerSystem implements Bootable {
+public class ApplicationManagerSystem  {
 
 	private ActorSystem system;
 	private final ActorRef router;
@@ -49,16 +48,6 @@ public class ApplicationManagerSystem implements Bootable {
 		// create the object and generate the load
 		new ApplicationManagerSystem().generateLoad();
 
-	}
-
-	public void shutdown() {
-		// TODO Auto-generated method stub
-	
-	}
-
-	public void startup() {
-		// TODO Auto-generated method stub
-		
 	}
 
 }

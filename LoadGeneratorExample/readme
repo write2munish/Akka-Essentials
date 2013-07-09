@@ -1,0 +1,3 @@
+#Run the Load Generator
+
+mvn exec:java -Dexec.mainClass="org.akka.essentials.loadgenerator.ApplicationManagerSystem"
