@@ -1,16 +1,17 @@
 package akka.first.app.java.messages;
 
-import java.util.HashMap;
+import java.util.Collections;
+import java.util.Map;
 
 public class ReduceData {
 
-	private HashMap<String, Integer> reduceDataList;
+	private Map<String, Integer> reduceDataList;
 
-	public HashMap<String, Integer> getReduceDataList() {
+	public Map<String, Integer> getReduceDataList() {
 		return reduceDataList;
 	}
 
-	public ReduceData(HashMap<String, Integer> reduceDataList) {
-		this.reduceDataList = reduceDataList;
+	public ReduceData(Map<String, Integer> reduceDataList) {
+		this.reduceDataList = Collections.unmodifiableMap(reduceDataList);
 	}
 }
