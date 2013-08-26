@@ -2,7 +2,7 @@ package org.akka.essentials.wc.mapreduce.example.server;
 
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
-import akka.actor.Actors;
+import akka.actor.PoisonPill;
 import akka.actor.Props;
 import akka.actor.UntypedActor;
 import akka.actor.UntypedActorFactory;
@@ -93,7 +93,7 @@ public class WCMapReduceServer implements Bootable {
 					if (message.equals("DISPLAY_LIST"))
 						return 2; // 'DisplayList messages should be treated
 									// last if possible
-					else if (message.equals(Actors.poisonPill()))
+					else if (message.equals(PoisonPill.getInstance()))
 						return 3; // PoisonPill when no other left
 					else
 						return 0; // By default they go with high priority
