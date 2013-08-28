@@ -1,16 +1,16 @@
 package akka.first.app.scala
-import java.util.ArrayList
-import java.util.HashMap
+
+import scala.collection.immutable._
 
 import akka.actor.ActorSystem
 import akka.actor.Props
 import akka.actor.actorRef2Scala
 import akka.first.app.scala.actors.MasterActor
 
-class Word(val word:String,val count:Integer)
+class Word(val word:String,val count:Int)
 case class Result
-class MapData(val dataList: ArrayList[Word])
-class ReduceData(val reduceDataMap: HashMap[String, Integer])
+class MapData(val dataList: List[Word])
+class ReduceData(val reduceDataMap: Map[String, Int])
 
 
 object MapReduceApplication {

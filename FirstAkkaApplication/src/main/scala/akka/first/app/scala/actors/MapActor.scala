@@ -1,5 +1,6 @@
 package akka.first.app.scala.actors
-import java.util.ArrayList
+import scala.collection.immutable._
+
 import java.util.StringTokenizer
 
 import akka.actor.actorRef2Scala
@@ -20,12 +21,12 @@ class MapActor(reduceActor: ActorRef) extends Actor {
       reduceActor ! evaluateExpression(message)
   }
   def evaluateExpression(line: String): MapData = {
-    var dataList = new ArrayList[Word]
+    var dataList = List[Word]()
     var parser: StringTokenizer = new StringTokenizer(line)
     while (parser.hasMoreTokens()) {
       var word: String = parser.nextToken().toLowerCase()
       if (!STOP_WORDS_LIST.contains(word)) {
-        dataList.add(new Word(word, defaultCount))
+        dataList = new Word(word, defaultCount) :: dataList
       }
     }
     return new MapData(dataList)

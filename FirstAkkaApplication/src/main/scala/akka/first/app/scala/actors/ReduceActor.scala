@@ -1,8 +1,6 @@
 package akka.first.app.scala.actors
-import java.util.ArrayList
-import java.util.HashMap
 
-import scala.collection.JavaConversions.asScalaBuffer
+import scala.collection.immutable._
 
 import akka.actor.actorRef2Scala
 import akka.actor.Actor
@@ -19,14 +17,15 @@ class ReduceActor(aggregateActor: ActorRef) extends Actor {
       aggregateActor ! reduce(message.dataList)
   }
 
-  def reduce(dataList: ArrayList[Word]): ReduceData = {
-    var reducedMap = new HashMap[String, Integer]
+  def reduce(dataList: List[Word]): ReduceData = {
+    var reducedMap = new HashMap[String, Int]
     for (wc: Word <- dataList) {
       var word: String = wc.word
-      if (reducedMap.containsKey(word)) {
-        reducedMap.put(word, reducedMap.get(word) + defaultCount)
+      if (reducedMap.contains(word)) {  
+    	var count:Int = reducedMap.get(word).get + defaultCount  
+        reducedMap += word -> count
       } else {
-        reducedMap.put(word, defaultCount)
+        reducedMap += word -> defaultCount
       }
     }
     return new ReduceData(reducedMap)
