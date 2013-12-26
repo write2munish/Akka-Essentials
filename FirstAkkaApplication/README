@@ -1,0 +1,3 @@
+Execute the application - 
+
+mvn clean package exec:exec
