@@ -25,5 +25,6 @@ public class MapReduceApplication {
 		Thread.sleep(500);
 		
 		_system.shutdown();
+        System.out.println("Java done!");
 	}
 }

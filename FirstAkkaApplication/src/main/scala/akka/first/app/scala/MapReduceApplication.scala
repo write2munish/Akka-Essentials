@@ -28,5 +28,6 @@ object MapReduceApplication {
 
 		Thread.sleep(500)
 		_system.shutdown
+    println("Scala done!")
 	}
 }
