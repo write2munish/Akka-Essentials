@@ -20,7 +20,7 @@ public class MapReduceApplication {
 		
 		Thread.sleep(500);
 		
-		master.tell(new Result());
+		master.tell(new Result(), null);
 		
 		Thread.sleep(500);
 		
