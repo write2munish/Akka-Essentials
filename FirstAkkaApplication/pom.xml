@@ -64,7 +64,7 @@
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
                 <configuration>
-                    <executable>java</executable>
+                    <executable>scala</executable>
                     <arguments>
                         <argument>-classpath</argument>
                         <classpath/>
