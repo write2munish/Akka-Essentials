@@ -8,7 +8,7 @@ import akka.actor.actorRef2Scala
 import akka.first.app.scala.actors.MasterActor
 
 class Word(val word:String,val count:Int)
-case class Result
+case class Result()
 class MapData(val dataList: List[Word])
 class ReduceData(val reduceDataMap: Map[String, Int])
 
