@@ -12,7 +12,7 @@ public class MyActorSystem {
 		ActorRef pingPongActor = _system
 				.actorOf(new Props(PingPongActor.class));
 
-		pingPongActor.tell(PingPongActor.PING);
+		pingPongActor.tell(PingPongActor.PING, pingPongActor);
 
 		Thread.sleep(2000);
 
