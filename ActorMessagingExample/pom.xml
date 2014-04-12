@@ -16,6 +16,27 @@
         <scala.tools.version>2.10</scala.tools.version>
         <scalatest.output>WD</scalatest.output>
     </properties>
+    
+    <repositories>
+        <repository>
+            <id>typesafe</id>
+            <name>Typesafe Repository</name>
+            <url>http://repo.typesafe.com/typesafe/releases/</url>
+        </repository>
+        <repository>
+            <id>scala-tools.org</id>
+            <name>Scala-tools Maven2 Repository</name>
+            <url>http://scala-tools.org/repo-releases</url>
+        </repository>
+    </repositories>
+  
+    <pluginRepositories>
+        <pluginRepository>
+            <id>scala-tools.org</id>
+            <name>Scala-tools Maven2 Repository</name>
+            <url>http://scala-tools.org/repo-releases</url>
+        </pluginRepository>
+    </pluginRepositories>
 
     <dependencies>
         <dependency>
@@ -40,19 +61,35 @@
             <version>2.1.2</version>
         </dependency>
     </dependencies>
-    <repositories>
-        <repository>
-            <id>typesafe</id>
-            <name>Typesafe Repository</name>
-            <url>http://repo.typesafe.com/typesafe/releases/</url>
-        </repository>
-    </repositories>
+
+
     <build>
         <plugins> 
             <plugin>
                 <groupId>net.alchim31.maven</groupId>
                 <artifactId>scala-maven-plugin</artifactId>
                 <version>3.1.6</version>
+                <configuration>
+                    <launchers>
+                        <launcher>
+                            <id>TestActorSystem</id>
+                            <mainClass>org.akka.essentials.scala.future.example.TestActorSystem</mainClass>
+                            <!-- args are optional -->
+<!--                            <args>
+                                <arg>arg1</arg>
+                            </args>-->
+                            <!-- jvmArgs are optional -->
+<!--                            <jvmArgs>
+                                <jvmArg>-Xmx1280m</jvmArg>
+                                <jvmArg></jvmArg>
+                            </jvmArgs>-->
+                        </launcher>
+                        <launcher>
+                            <id>MyActorSystem</id>
+                            <mainClass>org.akka.essentials.scala.hotswap.example.MyActorSystem</mainClass>
+                        </launcher>
+                    </launchers>
+                </configuration>
                 <executions>
                     <execution>
                         <id>scala-compile-first</id>
@@ -99,7 +136,7 @@
                     <arguments>
                         <argument>-classpath</argument>
                         <classpath/>
-                        <argument>org.akka.essentials.scala.hotswap.example.MyActorSystem</argument>
+                        <argument>org.akka.essentials.scala.future.example.TestActorSystem</argument>
                     </arguments>
                 </configuration>
             </plugin>
