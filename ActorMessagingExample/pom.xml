@@ -99,7 +99,7 @@
                     <arguments>
                         <argument>-classpath</argument>
                         <classpath/>
-                        <argument>org.akka.essentials.hotswap.example.MyActorSystem</argument>
+                        <argument>org.akka.essentials.scala.hotswap.example.MyActorSystem</argument>
                     </arguments>
                 </configuration>
             </plugin>
