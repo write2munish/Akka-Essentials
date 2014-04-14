@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+    <name>AkkaEssentials</name>
+    <groupId>in.akkaessentials</groupId>
+    <artifactId>AkkaEssentials</artifactId>
+    <version>1.0.0</version>
+    <packaging>pom</packaging>
+    <modules>
+        <module>ActorMessagingExample</module>
+        <module>AkkaSerializerExample</module>
+        <module>GridPatternExample</module>
+        <module>AkkaCustomExtension</module>
+        <module>AkkaSupervisorExample</module>
+        <module>AkkaDispatcherExample</module>
+        <module>AkkaUnitTest</module>
+        <module>LoadGeneratorExample</module>
+        <module>AkkaWithZeroMQ</module>
+        <module>AkkaRemotingExample/LocalNodeApp</module>
+        <module>AkkaRemotingExample/RemoteNodeApp</module>
+        <module>ClientServerExample</module>
+        <module>TypedActorExample</module>
+        <module>AkkaRouterExample</module>
+        <module>DurableMailBox</module>
+        <module>WordCountMapReduce</module>
+        <module>AkkaSTMExample</module>
+        <module>FirstAkkaApplication</module>
+    </modules>
+    <repositories>
+        <repository>
+            <id>typesafe</id>
+            <name>Typesafe Repository</name>
+            <url>http://repo.typesafe.com/typesafe/releases/</url>
+        </repository>
+        <repository>
+            <id>scala-tools.org</id>
+            <name>Scala-tools Maven2 Repository</name>
+            <url>http://scala-tools.org/repo-releases</url>
+        </repository>
+    </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>scala-tools.org</id>
+            <name>Scala-tools Maven2 Repository</name>
+            <url>http://scala-tools.org/repo-releases</url>
+        </pluginRepository>
+    </pluginRepositories>
+</project>
+
