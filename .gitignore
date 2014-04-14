@@ -1,6 +1,7 @@
 .idea
 target
 *.iml
+*.swp
 
 *.swp~
 *.class
