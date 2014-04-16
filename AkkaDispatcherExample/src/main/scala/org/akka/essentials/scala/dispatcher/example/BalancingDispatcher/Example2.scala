@@ -15,5 +15,6 @@ object Example2 {
 	0 to 25 foreach {
 		i => actor ! i
 	}
+  Thread.sleep(3000)
 	_system.shutdown()
 }
