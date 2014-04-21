@@ -5,6 +5,7 @@ import akka.actor.ActorLogging
 class MsgEchoActor extends Actor with ActorLogging {
   def receive: Receive = {
     case message =>
+      Thead.sleep(10)
       log.info("Received Message {} in Actor {}", message, self.path.name)
   }
 }
