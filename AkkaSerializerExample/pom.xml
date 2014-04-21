@@ -86,7 +86,7 @@
                     <launchers>
                         <launcher>
                             <id>MySerializationApp</id>
-                            <mainClass>org.akka.essentials.serializer.MySerializationApp</mainClass>
+                            <mainClass>org.akka.essentials.scala.serializer.MySerializationApp</mainClass>
                         </launcher>
                     </launchers>
                 </configuration>
