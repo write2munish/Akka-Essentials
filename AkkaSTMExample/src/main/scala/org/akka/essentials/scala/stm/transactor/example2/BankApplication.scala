@@ -1,4 +1,4 @@
-package org.akka.essentials.stm.transactor.example2
+package org.akka.essentials.scala.stm.transactor.example2
 
 import java.lang.Float
 
@@ -21,14 +21,14 @@ object BankApplication {
 
   def main(args: Array[String]): Unit = {
 
-    showBalances
+    showBalances()
     bank ! new TransferMsg(1500)
-    showBalances
+    showBalances()
     bank ! new TransferMsg(1400)
-    showBalances
+    showBalances()
     bank ! new TransferMsg(3500)
-    showBalances
-    system.shutdown
+    showBalances()
+    system.shutdown()
   }
   def showBalances(): Unit = {
     Thread.sleep(2000)    

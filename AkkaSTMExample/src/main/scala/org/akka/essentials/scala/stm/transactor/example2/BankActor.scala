@@ -1,4 +1,4 @@
-package org.akka.essentials.stm.transactor.example2
+package org.akka.essentials.scala.stm.transactor.example2
 
 import scala.concurrent.Await
 import scala.concurrent.duration._

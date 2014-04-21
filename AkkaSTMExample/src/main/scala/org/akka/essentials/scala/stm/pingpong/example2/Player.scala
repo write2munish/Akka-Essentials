@@ -1,4 +1,4 @@
-package org.akka.essentials.stm.pingpong.example2
+package org.akka.essentials.scala.stm.pingpong.example2
 
 class Player(myOpponent: String, myTable: PingPong) extends Runnable {
 

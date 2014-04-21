@@ -1,4 +1,4 @@
-package org.akka.essentials.stm.pingpong.example3
+package org.akka.essentials.scala.stm.pingpong.example3
 
 import scala.concurrent.duration.DurationInt
 

@@ -1,4 +1,4 @@
-package org.akka.essentials.stm.stockticker.example
+package org.akka.essentials.scala.stm.stockticker.example
 import akka.agent.Agent
 
 class StockReader(stock: Stock) extends Runnable {

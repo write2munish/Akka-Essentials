@@ -1,4 +1,4 @@
-package org.akka.essentials.stm.pingpong.example3
+package org.akka.essentials.scala.stm.pingpong.example3
 
 import scala.concurrent.stm.Ref
 import scala.concurrent.ops._
@@ -32,7 +32,7 @@ object Game {
     try {
       Thread.sleep(1000)
     } catch {
-      case _ =>
+      case _ : Throwable =>
       // eat the exception
     }
     _system.shutdown

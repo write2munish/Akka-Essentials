@@ -1,4 +1,4 @@
-package org.akka.essentials.stm.transactor.example
+package org.akka.essentials.scala.stm.transactor.example
 import akka.actor.SupervisorStrategy._
 import akka.actor.Actor
 import akka.actor.AllForOneStrategy

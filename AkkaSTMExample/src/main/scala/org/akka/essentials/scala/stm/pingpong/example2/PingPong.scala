@@ -1,4 +1,4 @@
-package org.akka.essentials.stm.pingpong.example2
+package org.akka.essentials.scala.stm.pingpong.example2
 
 import scala.concurrent.stm.Ref
 

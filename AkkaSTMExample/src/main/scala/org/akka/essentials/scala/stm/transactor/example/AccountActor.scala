@@ -1,4 +1,4 @@
-package org.akka.essentials.stm.transactor.example
+package org.akka.essentials.scala.stm.transactor.example
 import scala.concurrent.stm.Ref
 import akka.actor.Actor
 import akka.transactor.Coordinated
