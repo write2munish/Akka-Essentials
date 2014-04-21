@@ -1,4 +1,4 @@
-package org.akka.essentials.serializer
+package org.akka.essentials.scala.serializer
 import akka.serialization.SerializationExtension
 import akka.actor.ActorSystem
 import com.typesafe.config.ConfigFactory

@@ -1,4 +1,4 @@
-package org.akka.essentials.serializer
+package org.akka.essentials.scala.serializer
 import com.google.gson.GsonBuilder
 import akka.serialization.Serializer
 
