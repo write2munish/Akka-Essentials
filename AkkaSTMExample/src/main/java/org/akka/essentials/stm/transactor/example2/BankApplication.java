@@ -1,45 +1,46 @@
 package org.akka.essentials.stm.transactor.example2;
 
-import akka.actor.ActorRef;
-import akka.actor.ActorSystem;
-import akka.actor.Props;
 import org.akka.essentials.stm.transactor.example2.msg.AccountBalance;
 import org.akka.essentials.stm.transactor.example2.msg.TransferMsg;
 
+import akka.actor.ActorRef;
+import akka.actor.ActorSystem;
+import akka.actor.Props;
+
 public class BankApplication {
-    ActorSystem _system = ActorSystem.apply("STM-Example");
-    ActorRef bank = _system.actorOf(new Props(BankActor.class), "BankActor");
+	ActorSystem _system = ActorSystem.apply("STM-Example");
+	ActorRef bank = _system.actorOf(new Props(BankActor.class), "BankActor");
 
-    public static void main(String args[]) {
+	public static void main(String args[]) {
 
-        BankApplication bankApp = new BankApplication();
+		BankApplication bankApp = new BankApplication();
 
-        bankApp.showBalances();
+		bankApp.showBalances();
 
-        bankApp.bank.tell(new TransferMsg(Float.valueOf("1500")));
+		bankApp.bank.tell(new TransferMsg(Float.valueOf("1500")));
 
-        bankApp.showBalances();
+		bankApp.showBalances();
 
-        bankApp.bank.tell(new TransferMsg(Float.valueOf("1400")));
+		bankApp.bank.tell(new TransferMsg(Float.valueOf("1400")));
 
-        bankApp.showBalances();
+		bankApp.showBalances();
 
-        bankApp.bank.tell(new TransferMsg(Float.valueOf("3500")));
+		bankApp.bank.tell(new TransferMsg(Float.valueOf("3500")));
 
-        bankApp.showBalances();
+		bankApp.showBalances();
 
-        bankApp._system.shutdown();
+		bankApp._system.shutdown();
 
-    }
+	}
 
-    private void showBalances() {
-        try {
-            Thread.sleep(2000);
-            bank.tell(new AccountBalance("XYZ"));
-            bank.tell(new AccountBalance("ABC"));
+	private void showBalances() {
+		try {
+			Thread.sleep(2000);
+			bank.tell(new AccountBalance("XYZ"));
+			bank.tell(new AccountBalance("ABC"));
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 }
