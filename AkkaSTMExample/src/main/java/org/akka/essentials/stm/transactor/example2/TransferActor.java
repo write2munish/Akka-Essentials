@@ -1,19 +1,31 @@
 package org.akka.essentials.stm.transactor.example2;
 
-import akka.actor.*;
-import akka.actor.SupervisorStrategy.*;
+import static akka.actor.SupervisorStrategy.escalate;
+import static akka.actor.SupervisorStrategy.resume;
+import static akka.actor.SupervisorStrategy.stop;
+
+import java.util.concurrent.TimeUnit;
+
+import org.akka.essentials.stm.transactor.example2.msg.AccountBalance;
+import org.akka.essentials.stm.transactor.example2.msg.AccountCredit;
+import org.akka.essentials.stm.transactor.example2.msg.AccountDebit;
+import org.akka.essentials.stm.transactor.example2.msg.AccountMsg;
+import org.akka.essentials.stm.transactor.example2.msg.TransferMsg;
+
+import scala.concurrent.duration.Duration;
+import akka.actor.ActorRef;
+import akka.actor.AllForOneStrategy;
+import akka.actor.Props;
+import akka.actor.SupervisorStrategy;
+import akka.actor.SupervisorStrategy.Directive;
+import akka.actor.UntypedActor;
+import akka.actor.UntypedActorFactory;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
 import akka.japi.Function;
 import akka.transactor.Coordinated;
 import akka.transactor.CoordinatedTransactionException;
 import akka.util.Timeout;
-import org.akka.essentials.stm.transactor.example2.msg.*;
-import scala.concurrent.duration.Duration;
-
-import java.util.concurrent.TimeUnit;
-
-import static akka.actor.SupervisorStrategy.*;
 
 public class TransferActor extends UntypedActor {
 	LoggingAdapter log = Logging.getLogger(getContext().system(), this);
