@@ -13,7 +13,7 @@ object StockApplication {
     val stock = new Stock("APPL", Agent(new Float("600.45"))(_system))
 
     val readerThreads = new Array[Thread](10)
-    val updateThreads = new Array[Thread](5)
+    val updateThreads = new Array[Thread](10)
 
     for (i <- 0 until readerThreads.length) {
       readerThreads(i) = new Thread(new StockReader(stock))
