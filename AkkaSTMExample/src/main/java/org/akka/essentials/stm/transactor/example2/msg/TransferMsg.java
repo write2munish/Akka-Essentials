@@ -2,14 +2,14 @@ package org.akka.essentials.stm.transactor.example2.msg;
 
 public class TransferMsg {
 
-	Float amtToBeTransferred;
+    Float amtToBeTransferred;
 
-	public TransferMsg(Float amt) {
-		amtToBeTransferred = amt;
-	}
+    public TransferMsg(Float amt) {
+        amtToBeTransferred = amt;
+    }
 
-	public Float getAmtToBeTransferred() {
-		return amtToBeTransferred;
-	}
+    public Float getAmtToBeTransferred() {
+        return amtToBeTransferred;
+    }
 
 }

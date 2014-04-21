@@ -7,6 +7,7 @@ import akka.util.Timeout
 
 class PingPong(whoseTurn: Agent[String]) {
   implicit val timeout = Timeout(5 seconds)
+
   def hit(opponent: String): Boolean = {
 
     val x: String = Thread.currentThread().getName()

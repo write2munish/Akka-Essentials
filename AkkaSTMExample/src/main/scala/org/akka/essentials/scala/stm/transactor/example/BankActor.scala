@@ -1,9 +1,9 @@
 package org.akka.essentials.scala.stm.transactor.example
+
 import akka.actor.SupervisorStrategy._
 import akka.actor.Actor
 import akka.actor.AllForOneStrategy
 import akka.actor.Props
-import akka.transactor.Coordinated
 import akka.transactor.CoordinatedTransactionException
 import akka.util.Timeout
 import scala.concurrent.Await

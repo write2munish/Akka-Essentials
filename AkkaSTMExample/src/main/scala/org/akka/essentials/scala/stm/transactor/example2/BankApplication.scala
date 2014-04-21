@@ -10,8 +10,11 @@ import akka.actor.actorRef2Scala
 import akka.util.Timeout
 
 case class AccountBalance(accountNumber: String, accountBalance: Float)
+
 case class AccountCredit(amount: Float)
+
 case class AccountDebit(amount: Float)
+
 case class TransferMsg(amtToBeTransferred: Float)
 
 object BankApplication {
@@ -30,8 +33,9 @@ object BankApplication {
     showBalances()
     system.shutdown()
   }
+
   def showBalances(): Unit = {
-    Thread.sleep(2000)    
+    Thread.sleep(2000)
     bank ! new AccountBalance("XYZ", 0)
     bank ! new AccountBalance("ABC", 0)
   }

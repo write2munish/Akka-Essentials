@@ -1,5 +1,5 @@
 package org.akka.essentials.scala.stm.transactor.example
-import scala.concurrent.stm.Ref
+
 
 import akka.actor.SupervisorStrategy._
 import akka.actor.Actor
@@ -7,7 +7,6 @@ import akka.actor.AllForOneStrategy
 import akka.actor.Props
 import akka.transactor.Coordinated
 import akka.transactor.CoordinatedTransactionException
-import scala.concurrent.Await
 import scala.concurrent.duration._
 import akka.util.Timeout
 
@@ -19,7 +18,7 @@ class TransferActor extends Actor {
   val from = context.actorOf(Props(new AccountActor(fromAccount, 5000)), name = fromAccount)
   val to = context.actorOf(Props(new AccountActor(toAccount, 1000)), name = toAccount)
   implicit val timeout = Timeout(5 seconds)
-  
+
   override val supervisorStrategy = AllForOneStrategy(maxNrOfRetries = 10, withinTimeRange = 10 seconds) {
     case _: CoordinatedTransactionException => Resume
     case _: IllegalStateException => Resume
@@ -30,11 +29,12 @@ class TransferActor extends Actor {
   def receive: Receive = {
     case message: TransferMsg =>
       val coordinated = Coordinated()
-      coordinated atomic { implicit t =>
-        to ! coordinated(new AccountCredit(
-          message.amtToBeTransferred))
-        from ! coordinated(new AccountDebit(
-          message.amtToBeTransferred))
+      coordinated atomic {
+        implicit t =>
+          to ! coordinated(new AccountCredit(
+            message.amtToBeTransferred))
+          from ! coordinated(new AccountDebit(
+            message.amtToBeTransferred))
       }
     case message: AccountBalance =>
       if (message.accountNumber.equalsIgnoreCase(fromAccount)) {

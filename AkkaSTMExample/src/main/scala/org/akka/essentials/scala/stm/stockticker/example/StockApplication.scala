@@ -1,4 +1,5 @@
 package org.akka.essentials.scala.stm.stockticker.example
+
 import akka.actor.ActorSystem
 import akka.agent.Agent
 import java.lang.Float
@@ -29,7 +30,7 @@ object StockApplication {
     for (i <- 0 until updateThreads.length)
       updateThreads(i).start()
 
-     Thread.sleep(3000)
-     _system.shutdown()
+    Thread.sleep(3000)
+    _system.shutdown()
   }
 }

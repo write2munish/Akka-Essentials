@@ -30,7 +30,7 @@ object Game {
     try {
       Thread.sleep(1000)
     } catch {
-      case _ : Throwable =>
+      case _: Throwable =>
       // eat the exception
     }
     _system.shutdown

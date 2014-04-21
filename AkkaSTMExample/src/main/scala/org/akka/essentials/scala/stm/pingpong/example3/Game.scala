@@ -1,7 +1,5 @@
 package org.akka.essentials.scala.stm.pingpong.example3
 
-import scala.concurrent.stm.Ref
-import scala.concurrent.ops._
 import akka.actor.ActorSystem
 import akka.agent.Agent
 
@@ -18,7 +16,7 @@ object Game {
 
     alice.setName("alice")
     bob.setName("bob")
-    
+
     alice.start // alice starts playing
     bob.start // bob starts playing
     try {
@@ -32,7 +30,7 @@ object Game {
     try {
       Thread.sleep(1000)
     } catch {
-      case _ : Throwable =>
+      case _: Throwable =>
       // eat the exception
     }
     _system.shutdown

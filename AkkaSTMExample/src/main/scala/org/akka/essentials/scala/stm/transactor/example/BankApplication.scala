@@ -6,12 +6,14 @@ import scala.concurrent.duration._
 
 import akka.actor.ActorSystem
 import akka.actor.Props
-import akka.pattern.ask
 import akka.util.Timeout
 
 case class AccountBalance(accountNumber: String, accountBalance: Float)
+
 case class AccountCredit(amount: Float)
+
 case class AccountDebit(amount: Float)
+
 case class TransferMsg(amtToBeTransferred: Float)
 
 object BankApplication {
@@ -31,6 +33,7 @@ object BankApplication {
 
     system.shutdown()
   }
+
   def showBalances(): Unit = {
     Thread.sleep(2000)
     bank ! new AccountBalance("XYZ", 0)

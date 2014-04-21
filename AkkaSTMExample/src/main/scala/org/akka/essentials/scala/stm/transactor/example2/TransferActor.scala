@@ -1,15 +1,13 @@
 package org.akka.essentials.scala.stm.transactor.example2
-import scala.concurrent.stm.Ref
+
 import akka.actor.SupervisorStrategy._
 import akka.actor.Actor
 import akka.actor.AllForOneStrategy
 import akka.actor.Props
 import akka.transactor.Coordinated
 import akka.transactor.CoordinatedTransactionException
-import scala.concurrent.Await
 import scala.concurrent.duration._
 import akka.util.Timeout
-import java.lang.Float
 
 class TransferActor extends Actor {
 
@@ -23,11 +21,12 @@ class TransferActor extends Actor {
   def receive: Receive = {
     case message: TransferMsg =>
       val coordinated = Coordinated()
-      coordinated atomic { implicit t =>
-        from ! coordinated(new AccountDebit(
-          message.amtToBeTransferred))
-        to ! coordinated(new AccountCredit(
-          message.amtToBeTransferred))
+      coordinated atomic {
+        implicit t =>
+          from ! coordinated(new AccountDebit(
+            message.amtToBeTransferred))
+          to ! coordinated(new AccountCredit(
+            message.amtToBeTransferred))
       }
     case message: AccountBalance =>
       if (message.accountNumber.equalsIgnoreCase(fromAccount))

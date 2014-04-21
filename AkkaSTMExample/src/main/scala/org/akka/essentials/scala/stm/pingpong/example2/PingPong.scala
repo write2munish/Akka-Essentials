@@ -32,7 +32,7 @@ class PingPong(whoseTurn: Ref[String]) {
       whoseTurn.single.set(opponent)
       return false
     }
-    if (whoseTurn.single.get.compareTo("DONE") == 0){
+    if (whoseTurn.single.get.compareTo("DONE") == 0) {
       return false
     }
     return true // keep playing.
