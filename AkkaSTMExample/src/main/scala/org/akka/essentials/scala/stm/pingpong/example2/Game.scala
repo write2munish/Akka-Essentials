@@ -17,20 +17,20 @@ object Game {
 
     alice.setName("alice")
     bob.setName("bob")
-    alice.start // alice starts playing
-    bob.start // bob starts playing
+    alice.start() // alice starts playing
+    bob.start() // bob starts playing
     try {
       // Wait .5 seconds
       Thread.sleep(500)
     } catch {
-      case _ =>
+      case _ : Throwable =>
       // eat the exception
     }
     table.hit("DONE") // cause the players to quit their threads.
     try {
       Thread.sleep(1000)
     } catch {
-      case _: Throwable =>
+      case _ : Throwable =>
       // eat the exception
     }
     _system.shutdown

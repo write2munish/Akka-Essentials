@@ -6,7 +6,7 @@ class PingPong(whoseTurn: Ref[String]) {
 
   def hit(opponent: String): Boolean = {
 
-    val x: String = Thread.currentThread().getName()
+    val x: String = Thread.currentThread().getName
 
     if (whoseTurn.single.get == "") {
       whoseTurn.single.set(x)
@@ -17,14 +17,14 @@ class PingPong(whoseTurn: Ref[String]) {
       return true
     } else {
       try {
-        var t1 = System.currentTimeMillis()
+        val t1 = System.currentTimeMillis()
         wait(2500)
         if ((System.currentTimeMillis() - t1) > 2500) {
           println("****** TIMEOUT! " + x
             + " is waiting for " + whoseTurn + " to play.")
         }
       } catch {
-        case _ =>
+        case _ : Throwable =>
         // eat the exception
       }
     }

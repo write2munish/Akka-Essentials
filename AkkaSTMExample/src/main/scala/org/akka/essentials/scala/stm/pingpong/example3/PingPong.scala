@@ -10,7 +10,7 @@ class PingPong(whoseTurn: Agent[String]) {
 
   def hit(opponent: String): Boolean = {
 
-    val x: String = Thread.currentThread().getName()
+    val x: String = Thread.currentThread().getName
 
     //wait till all the messages are processed to make 
     //you get the correct value, as updated to Agents are
@@ -26,14 +26,14 @@ class PingPong(whoseTurn: Agent[String]) {
       return true
     } else {
       try {
-        var t1 = System.currentTimeMillis()
+        val t1 = System.currentTimeMillis()
         wait(2500)
         if ((System.currentTimeMillis() - t1) > 2500) {
           println("****** TIMEOUT! " + x
             + " is waiting for " + whoseTurn + " to play.")
         }
       } catch {
-        case _ =>
+        case _ : Throwable =>
         // eat the exception
       }
     }
