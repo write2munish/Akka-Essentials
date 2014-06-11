@@ -2,12 +2,12 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>LoadBalancer</groupId>
+  <groupId>LoadGeneratorExample</groupId>
   <artifactId>org-akka-essentials-loadbalancer</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>jar</packaging>
 
-  <name>org-akka-essentials-loadbalancer</name>
+  <name>LoadGeneratorExample</name>
   <url>http://maven.apache.org</url>
 
   <properties>
