@@ -23,6 +23,7 @@ public class SupervisorTest extends TestKit {
 
 	public SupervisorTest() {
 		super(_system);
+		supervisor.tell(Integer.valueOf(8));
 	}
 
 	@Test
@@ -41,6 +42,9 @@ public class SupervisorTest extends TestKit {
 		TestActorRef<SupervisorActor> supervisor = TestActorRef.apply(
 				new Props(SupervisorActor.class), _system);
 
+		//first send a correct message
+		supervisor.tell(Integer.valueOf(8));
+		//Send a  message that generates exception
 		supervisor.tell(Integer.valueOf(-8));
 
 		Integer result = (Integer) Await.result(
@@ -52,7 +56,7 @@ public class SupervisorTest extends TestKit {
 
 	@Test
 	public void restartTest() throws Exception {
-		supervisor.tell(null);
+		supervisor.tell("null");
 
 		Integer result = (Integer) Await.result(
 				Patterns.ask(supervisor, new Result(), 5000),
@@ -68,7 +72,7 @@ public class SupervisorTest extends TestKit {
 		TestProbe probe = new TestProbe(_system);
 		probe.watch(workerActor);
 
-		supervisor.tell(String.valueOf("Do Something"));
+		supervisor.tell(Long.parseLong("10"));
 
 		probe.expectMsgClass(Terminated.class);
 	}

@@ -33,11 +33,11 @@ public class SupervisorTest extends TestKit {
 		supervisor.tell("10");
 		probe.expectMsgClass(Terminated.class);
 
-		Thread.sleep(3000);
+		Thread.sleep(2000);
 		// the actor should get restarted
 		// lets send a new value and retrieve the same
 		supervisor.tell(Integer.valueOf(10));
-
+		
 		Integer result = (Integer) Await.result(
 				Patterns.ask(supervisor, new Result(), 5000),
 				Duration.create(5000, TimeUnit.MILLISECONDS));

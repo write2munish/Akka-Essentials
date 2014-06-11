@@ -18,10 +18,9 @@ import akka.testkit.TestProbe;
 
 import com.typesafe.config.ConfigFactory;
 
-
 public class SupervisorTest extends TestKit {
-	static ActorSystem _system = ActorSystem.create("faultTolerance", ConfigFactory
-			.load().getConfig("SupervisorSys"));
+	static ActorSystem _system = ActorSystem.create("faultTolerance",
+			ConfigFactory.load().getConfig("SupervisorSys"));
 	TestActorRef<SupervisorActor2> supervisor = TestActorRef.apply(new Props(
 			SupervisorActor2.class), _system);
 
@@ -42,8 +41,9 @@ public class SupervisorTest extends TestKit {
 
 	@Test
 	public void resumeTest() throws Exception {
+		supervisor.tell(Integer.valueOf(8));
 		supervisor.tell(Integer.valueOf(-8));
-		Thread.sleep(5000);
+		
 		Integer result = (Integer) Await.result(
 				Patterns.ask(supervisor, new Result(), 5000),
 				Duration.create(5000, TimeUnit.MILLISECONDS));
@@ -53,8 +53,10 @@ public class SupervisorTest extends TestKit {
 
 	@Test
 	public void restartTest() throws Exception {
-		supervisor.tell(null);
-
+		_system.scheduler().scheduleOnce(
+				Duration.create(0, TimeUnit.MILLISECONDS), supervisor,
+				"null", _system.dispatcher());
+		
 		Integer result = (Integer) Await.result(
 				Patterns.ask(supervisor, new Result(), 5000),
 				Duration.create(5000, TimeUnit.MILLISECONDS));
@@ -67,13 +69,13 @@ public class SupervisorTest extends TestKit {
 
 		ActorRef workerActor1 = supervisor.underlyingActor().workerActor1;
 		ActorRef workerActor2 = supervisor.underlyingActor().workerActor2;
-		
+
 		TestProbe probe1 = new TestProbe(_system);
 		TestProbe probe2 = new TestProbe(_system);
 		probe1.watch(workerActor1);
 		probe2.watch(workerActor2);
 
-		supervisor.tell(String.valueOf("Do Something"));
+		supervisor.tell(Long.parseLong("10"));
 
 		probe1.expectMsgClass(Terminated.class);
 		probe2.expectMsgClass(Terminated.class);

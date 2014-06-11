@@ -16,7 +16,7 @@ public class WorkerActor extends UntypedActor {
 	}
 
 	public void onReceive(Object o) throws Exception {
-		if (o == null) {
+		if (o instanceof String) {
 			throw new NullPointerException("Null Value Passed");
 		} else if (o instanceof Integer) {
 			Integer value = (Integer) o;
