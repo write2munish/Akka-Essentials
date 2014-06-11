@@ -14,11 +14,11 @@ import akka.routing.Destination;
 import akka.routing.RouteeProvider;
 
 /**
- * Router that sends burst of packets to one actor before sending 
- * to the next. The packet burst is a configurable value 
+ * Router that sends burst of packets to one actor before sending to the next.
+ * The packet burst is a configurable value
  * 
  * @author Munish
- *
+ * 
  */
 public class BurstyMessageRouter extends CustomRouterConfig {
 
@@ -39,14 +39,14 @@ public class BurstyMessageRouter extends CustomRouterConfig {
 	}
 
 	@Override
-	public CustomRoute createCustomRoute(Props props,
-			RouteeProvider routeeProvider) {
+	public CustomRoute createCustomRoute(RouteeProvider routeeProvider) {
 
 		// create the arraylist for holding the actors
 		final List<ActorRef> routees = new ArrayList<ActorRef>(noOfInstances);
 		for (int i = 0; i < noOfInstances; i++) {
 			// initialize the actors and add to the arraylist
-			routees.add(routeeProvider.context().actorOf(props));
+			routees.add(routeeProvider.context().actorOf(
+					new Props(MsgEchoActor.class)));
 		}
 		// register the list
 		routeeProvider.registerRoutees(routees);
@@ -61,14 +61,18 @@ public class BurstyMessageRouter extends CustomRouterConfig {
 				List<Destination> destinationList = Arrays
 						.asList(new Destination[] { new Destination(sender,
 								actor) });
-				//increment message count
-				messageCount++;
-				//check message count
+				// increment message count
+				synchronized (this) {
+					messageCount++;
+				}
+				// check message count
 				if (messageCount == messageBurst) {
 					actorSeq++;
-					//reset the counter
-					messageCount = 0;
-					//reset actorseq counter
+					// reset the counter
+					synchronized (this) {
+						messageCount = 0;
+					}
+					// reset actorseq counter
 					if (actorSeq == noOfInstances) {
 						actorSeq = 0;
 					}

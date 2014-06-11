@@ -1,14 +1,13 @@
 package org.akka.essentials.scala.router.example.scattergatherfirstcomplete
 import org.akka.essentials.scala.router.example.MsgEchoActor
 import org.akka.essentials.scala.router.example.RandomTimeActor
-
 import akka.actor.ActorSystem
 import akka.actor.Props
-import akka.dispatch.Await
 import akka.pattern.ask
 import akka.routing.ScatterGatherFirstCompletedRouter
-import akka.util.duration._
 import akka.util.Timeout
+import scala.concurrent.Await
+import scala.concurrent.duration._
 
 object Example {
   def main(args: Array[String]): Unit = {
