@@ -1,7 +1,7 @@
 Akka Essentials
 (refer http://akkaessentials.in/ for more details)
 
-[![Build Status](https://api.travis-ci.org/linkerlin/Akka-Essentials.png)](https://api.travis-ci.org/linkerlin/Akka-Essentials).
+[![Build Status](https://api.travis-ci.org/linkerlin/Akka-Essentials.png)](https://api.travis-ci.org/linkerlin/Akka-Essentials)
 
 You will find examples of Akka in Java & Scala, talking of one concept along with a problem solved
 
