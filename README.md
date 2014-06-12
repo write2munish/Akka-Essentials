@@ -13,11 +13,11 @@ WordCountMapReduce : This examples implements the Word Count Map Reduce model. T
 
 GridPatternExample : Grid Computing pattern is where a control node distributes the work to other nodes. Idea is to make use of the nodes on the network for their computing power. It is analogous to Master Slave Pattern with certain differences. The idea behind the Master Slave pattern is to partition the work into identical sub tasks which are then delegated to Slaves. The example demonstrates how an WorkerActor system sends a request for registration. The RegisterRemoteWorker recieves the request and forwards the same to JobController where the RoundRobinRouter is updated for the new worker information. The WorkScheduler sends a periodic request to JobController, who then sends packets to all the registered worker actors.
 
-AkkaSerializableExample : Akka by default supports 2 serializer options - java and protobuf. In addition, Akka provides an API to write you owns serializable. In this example, i have used google gson library to convert your value object into json string representation which is then converted to bytes and transported across the wire.
+AkkaSerializableExample : Akka by default supports 2 serializer options - java and protobuf. In addition, Akka provides an API to write you owns serializable. In this example, i have used google gson library to convert your value object into json string representation which is then converted to bytes and transported across the wire
 
 AkkaSupervisorExample : Akka provides two supervisor strategies - One-For-One or All-For-One that are used to monitor the actors and build the fault tolerance in the actor model. There are 3 examples that demonstrate the strategies and their usage. In addition, the java section has unit testing code also for testing your supervisor code
 
-AkkaWithZeroMQ - Akka provides native support for ZeroMQ libraries and provide different connectors (Pub-Sub, Req-Rep,Router-Dealer and Pull-Push). There are four examples that demonstrated their usage.
+AkkaWithZeroMQ - Akka provides native support for ZeroMQ libraries and provide different connectors (Pub-Sub, Req-Rep,Router-Dealer and Pull-Push). There are four examples that demonstrated their usage
 
 AkkaUnitTest : Unit testing toolkit is provided via TestKit in Akka. The scala side of unit testing is well covered. For java, TestKit provides limited constructs. The various examples implemented by Ray Roestenburg have ported to Java world, with couple of more scenario's added. This can be good starting point for Java programmers to start unit testing their actors
 
