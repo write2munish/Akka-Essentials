@@ -28,6 +28,7 @@
         <module>WordCountMapReduce</module>
         <module>AkkaSTMExample</module>
         <module>FirstAkkaApplication</module>
+        <module>AkkaPersistentExample</module>
     </modules>
 
 </project>
