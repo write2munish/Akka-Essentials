@@ -21,3 +21,4 @@ AkkaWithZeroMQ - Akka provides native support for ZeroMQ libraries and provide d
 
 AkkaUnitTest : Unit testing toolkit is provided via TestKit in Akka. The scala side of unit testing is well covered. For java, TestKit provides limited constructs. The various examples implemented by Ray Roestenburg have ported to Java world, with couple of more scenario's added. This can be good starting point for Java programmers to start unit testing their actors
 
+AkkaPersistentExample : Akka provides persistent model for stateful actors. The example uses a simple example of Integer (which carries the ) and operations (ADD, SUBTRACT, MULTIPLY, DIVIDE) along with operand acts on the state object
