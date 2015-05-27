@@ -2,14 +2,13 @@ package org.akka.essentials.data;
 
 import java.io.Serializable;
 
-public class Operation implements Serializable {
+public class CalculationEvent implements Serializable {
 
-	private static final long serialVersionUID = -4380291231130584842L;
-
+	private static final long serialVersionUID = -8292612144802844338L;
 	private final Operator op;
 	private final Integer number;
 
-	public Operation(Operator op, Integer num) {
+	public CalculationEvent(Operator op, Integer num) {
 		this.op = op;
 		this.number = num;
 	}
@@ -25,5 +24,4 @@ public class Operation implements Serializable {
 	public String toString() {
 		return op.toString() + "," + number;
 	}
-
 }

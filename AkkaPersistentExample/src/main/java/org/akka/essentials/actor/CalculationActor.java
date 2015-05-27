@@ -2,7 +2,8 @@ package org.akka.essentials.actor;
 
 import static java.util.Arrays.asList;
 
-import org.akka.essentials.data.Operation;
+import org.akka.essentials.data.CalculationEvent;
+import org.akka.essentials.data.OperationCmd;
 
 import akka.japi.Procedure;
 import akka.persistence.SnapshotOffer;
@@ -18,12 +19,11 @@ public class CalculationActor extends UntypedPersistentActor {
 
 	@Override
 	public void onReceiveRecover(Object msg) {
-		if (msg instanceof Operation) {
-			//apply the operation message(s) when recovering the actor state
-			Operation ops = (Operation) msg;
-			calculate(ops);
+		if (msg instanceof CalculationEvent) {
+			// apply the operation message(s) when recovering the actor state
+			calculate((CalculationEvent) msg);
 		} else if (msg instanceof SnapshotOffer) {
-			//apply the snapshot message to recover from an intermediate state
+			// apply the snapshot message to recover from an intermediate state
 			state = Integer.valueOf((String) ((SnapshotOffer) msg).snapshot());
 		} else {
 			unhandled(msg);
@@ -32,21 +32,23 @@ public class CalculationActor extends UntypedPersistentActor {
 
 	@Override
 	public void onReceiveCommand(Object msg) {
-		if (msg instanceof Operation) {
-			final Operation ops = (Operation) msg;
-			//read the message
-			persist(asList(ops), new Procedure<Operation>() {
-				public void apply(Operation ops) throws Exception {
-					//apply the operation on the state
-					calculate(ops);
-					//save the operation message on the event stream
-					getContext().system().eventStream().publish(ops);
+		if (msg instanceof OperationCmd) {
+			final OperationCmd ops = (OperationCmd) msg;
+			// read the event
+			final CalculationEvent event = ops.getCalculationEvent();
+			persist(asList(event), new Procedure<CalculationEvent>() {
+				public void apply(CalculationEvent event) throws Exception {
+					// apply the operation on the state
+					calculate(event);
+					// save the operation message on the event stream
+					getContext().system().eventStream().publish(event);
 				}
 			});
 
 		} else if (msg.equals("snap")) {
-			//take an intermediate snapshot of the state. In case of recovery, actor can use the 
-			//last saved snapshot and apply events post that. 
+			// take an intermediate snapshot of the state. In case of recovery,
+			// actor can use the
+			// last saved snapshot and apply events post that.
 			saveSnapshot(state.toString());
 		} else if (msg.equals("print")) {
 			System.out.println(state);
@@ -57,7 +59,7 @@ public class CalculationActor extends UntypedPersistentActor {
 
 	}
 
-	private void calculate(Operation ops) {
+	private void calculate(CalculationEvent ops) {
 		switch (ops.getOperator()) {
 		case ADD:
 			state = state + ops.getNumber();
