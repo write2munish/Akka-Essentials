@@ -1,5 +1,5 @@
 Akka Essentials
-(refer http://akkaessentials.in/ for more details)
+(refer http://akka-essentials.blogspot.com/ for more details)
 
 [![Build Status](https://api.travis-ci.org/write2munish/Akka-Essentials.png)](https://api.travis-ci.org/write2munish/Akka-Essentials)
 
